@@ -41,4 +41,4 @@ export default ExportPDF;
 
 
 
-{/* <ExportPDF elementId="content-to-export" fileName="myDocument.pdf" /> */}
+{/* <ExportPDF elementId="id" fileName="name.pdf" /> */}
