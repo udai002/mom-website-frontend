@@ -5,15 +5,18 @@ import './App.css'
 import { Route, Routes } from 'react-router'
 import index from './pages/Home'
 import Authentication from './pages/Authentication/Authentication'
+import Table from './components/Table'
+import Mangemployee from './components/ManageJobs'
 
 function App() {
 
   return (
     <>
-     <Routes>
-      <Route path='/' Component={index} />
+     {/* <Routes>
+      <Route path='/' Component={Mangemployee} />
       <Route path='/auth' Component={Authentication} />
-     </Routes>
+     </Routes> */}
+     <Mangemployee></Mangemployee>
     </>
   )
 }
