@@ -12,11 +12,10 @@ function App() {
 
   return (
     <>
-     {/* <Routes>
+     <Routes>
       <Route path='/' Component={Mangemployee} />
-      <Route path='/auth' Component={Authentication} />
-     </Routes> */}
-     <Mangemployee></Mangemployee>
+     </Routes>
+     {/* <Mangemployee></Mangemployee> */}
     </>
   )
 }
