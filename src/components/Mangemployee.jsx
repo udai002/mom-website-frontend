@@ -65,7 +65,6 @@ function Mangemployee() {
 
   return (
     <>
-      <TopComponent />
       <div className="flex justify-between p-4">
         <p className="text-2xl font-medium">Manage Employee</p>
         <div className="flex gap-3 mt-2 items-center flex-wrap">
