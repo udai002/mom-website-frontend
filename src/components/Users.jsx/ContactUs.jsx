@@ -13,7 +13,7 @@ function ContactUs() {
     const [showModal, setShowModal] = useState(false)
     const [search, setSearch] = useState("")
     const [page, setPage] = useState(1);
-    const [limit] = useState(10);
+    const [limit] = useState(5);
     const [totalPages, setTotalPages] = useState(0);
 
     useEffect(() => {
@@ -40,17 +40,23 @@ function ContactUs() {
         { id: "name", header: "User Name" },
         { id: "email", header: "Email ID" },
         { id: "supportType", header: "SupportType" },
-        { id: "description", header: "Description" },
+        { id: "description", header: "Description",
+            cell:(row) => (
+                <div className='w-80 items-center'>
+                    {row.description}
+                </div>
+            )
+        },
         {
             id: "actions",
             header: "Actions",
             cell: (row) => (
-                <div className="flex   p-2">
+                <div className="flex flex-row gap-5 p-2">
                     <button onClick={() => handleDelete(row.id)}>
-                        <img src={Delete} className="w-100 h-8 block" />
+                        <img src={Delete} className="w-6 h-6 block" />
                     </button>
                     <div>
-                        <a href={`mailto:${email}`} className="w-8 h-8 block mt-1"><img src={email} alt="email" /></a>
+                        <a href={`mailto:${email}`} className="w-6 h-6 block mt-1"><img src={email} alt="email" /></a>
                     </div>
 
                 </div>
