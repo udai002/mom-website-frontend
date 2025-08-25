@@ -10,19 +10,15 @@ function Button() {
         name: "DD-MM-YY",
         image: Data
     },
-       { id: 2,
-        name: "More filters",
-        image: Filter
-    },
+    //    { id: 2,
+    //     name: "More filters",
+    //     image: Filter
+    // },
    
-    {
-        id: 3,
-        name: "Export",
-        image: Export
-    }]
+]
 
     return (
-        <div className='flex gap-2 text-[#00A79B]'>
+        <div className='flex gap-4 text-[#00A79B]'>
             {data.map((item, index) => (
                 <div key={index}>
                     <Buttons name={item.name} image={item.image} />
