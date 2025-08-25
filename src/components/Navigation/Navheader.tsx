@@ -26,7 +26,7 @@ export const Navheader = () => {
 
       
       <img
-        className={`size-[40px] cursor-pointer absolute -right-4 top-1/2 -translate-y-1/2 
+        className={`size-[40px] cursor-pointer absolute -right-2 top-1/2 -translate-y-1/2 
          p-1 rounded-full shadow-md transition-transform duration-300
         ${open ? "" : "rotate-180"}`}
         src={Sidebar}
