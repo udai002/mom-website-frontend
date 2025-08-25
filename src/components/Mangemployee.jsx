@@ -9,7 +9,7 @@ import Button from "./filter";
 import filter from "./Buttons";
 import { Link } from "react-router-dom"
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
-import { Link } from "react-router";
+import Editemp from "./Users/Editemp";
 
 
 function Mangemployee() {
@@ -18,6 +18,7 @@ function Mangemployee() {
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetch(
@@ -58,10 +59,10 @@ function Mangemployee() {
       cell: (row) => (
         <div className="flex gap-3  ml-40 p-2">
           <button onClick={() => handleDelete(row.id)}>
-            <img src={Delete} />
+            <img src={Delete} className="w-6 h-7"/>
           </button>
           <button onClick={() => handleedit(row)}>
-            <img src={Book} />
+            <img src={Book} className="w-8 h-8"/>
           </button>
         </div>
       ),
@@ -85,33 +86,76 @@ function Mangemployee() {
     }
   };
 
+  const handleModal = () =>{
+    setShowModal(true);
+  }
+
   return (
     <>
       <div className="flex justify-between p-4">
-        <p className="text-2xl font-medium">Manage Employee</p>
+        <p className="text-2xl ">Manage Employee</p>
         <div className="flex gap-3 mt-2 items-center flex-wrap">
           <Search onChange={handleOnChange} />
           <ExportPDF elementId="invest" fileName="investors.pdf" />
-          <Link to="/edit"><button className='font-200  bg-[#00A79B] text-[#fff] border-2 rounded-xl border-[#00A79B] py-2 px-3 '>Add Employee +</button></Link>
+          <button
+            onClick={handleModal}
+            className="font-200  bg-[#00A79B] text-[#fff] border-2 rounded-xl border-[#00A79B] py-2 px-3 "
+          >
+            Add Employee +
+          </button>
         </div>
 
+        {showModal && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white rounded-xl shadow-lg w-[500px] relative">
+              <button
+                onClick={() => setShowModal(false)}
+                className="absolute top-3 right-3 text-gray-600 text-2xl hover:text-black"
+              >
+                X
+              </button>
+              <Editemp
+                onClose={() => setShowModal(false)}
+              />
+            </div>
+          </div>
+        )}
       </div>
       <div className="flex justify-between px-5 py-3">
         <p>Total {data.length} Responses</p>
         <p>No filters applied</p>
-        <button onClick={() => setShowModal(true)} className='font-200 flex gap-2 bg-[white] text-[#e71818] border-2 rounded-xl border-[#e71818] py-2 px-3 '>Delete Selections
+        <button
+          onClick={() => setShowModal(true)}
+          className="font-200 flex gap-2 bg-[white] text-[#e71818] border-2 rounded-xl border-[#e71818] py-2 px-3 "
+        >
+          Delete Selections
           <img src={Delete} alt="delete" className="w-5 h-5" />
         </button>
       </div>
 
       <Table data={data} columns={columns} />
       <div className="flex justify-center items-center mt-10 gap-4 px-7 flex-row">
-        <span className="text-lg flex-1 text-[#444444] font-medium sm:text-base md:text-lg sm:text-left"> Page {page} of {totalPages}</span>
+        <span className="text-lg flex-1 text-[#444444] font-medium sm:text-base md:text-lg sm:text-left">
+          {" "}
+          Page {page} of {totalPages}
+        </span>
         <div className="flex gap-2">
-          <button onClick={handlePrevious} disabled={page === 1} className={`p-2 bg-[#00a99d] rounded-full ${page === 1 ? "opacity-50 cursor-not-allowed" : ""}`} >
+          <button
+            onClick={handlePrevious}
+            disabled={page === 1}
+            className={`p-2 bg-[#00a99d] rounded-full ${
+              page === 1 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          >
             <FaArrowLeftLong className="text-2xl text-white" />
           </button>
-          <button onClick={handleNext} disabled={page === totalPages} className={`p-2 bg-[#00a99d] rounded-full ${page === totalPages ? "opacity-50 cursor-not-allowed" : ""}`} >
+          <button
+            onClick={handleNext}
+            disabled={page === totalPages}
+            className={`p-2 bg-[#00a99d] rounded-full ${
+              page === totalPages ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          >
             <FaArrowRightLong className="text-2xl text-white" />
           </button>
         </div>

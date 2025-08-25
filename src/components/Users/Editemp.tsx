@@ -84,11 +84,10 @@ function Editemp() {
     <div className="w-full max-w-lg mx-auto p-6 bg-white rounded-2xl">
       <div className="flex flex-row justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Adding an Employee</h2>
-        <RxCross2 size={30} color="#00a99d" className="cursor-pointer" />
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="flex items-center gap-3">
+        <div className="items-center gap-3">
           <button
             type="button"
             onClick={handlePhotoClick}
@@ -107,12 +106,13 @@ function Editemp() {
         </div>
 
         {photoPreview && (
-          <div className="mt-2 text-center">
-            <img
+          <div className=" flex text-center">
+            {/* <img
               src={photoPreview}
               alt="Employee Preview"
-              className="w-32 h-32 rounded-full object-cover mx-auto"
-            />
+              className="w-20 h-20 rounded-full object-cover mx-auto"
+            /> */}
+            <p className="text-[#00a99d] -mt-3">image uploaded</p>
           </div>
         )}
 
@@ -132,10 +132,10 @@ function Editemp() {
             onChange={handleChange}
             className="w-1/2 border p-2 rounded-md border-[#00a99d]"
           >
-            <option value="">Designation</option>
-            <option value="Developer">Developer</option>
-            <option value="Designer">Designer</option>
-            <option value="Manager">Manager</option>
+            <option value="Develope">Developer</option>
+            <option value="HR">HR</option>
+            <option value="Data analyst">Data analyst</option>
+            <option value="Tester">Tester</option>
           </select>
 
           <input
