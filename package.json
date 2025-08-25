@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "autoprefixer": "^10.4.21",
+    "emailjs-com": "^3.2.0",
     "framer-motion": "^12.23.12",
     "install": "^0.13.0",
     "jspdf": "^3.0.1",
