@@ -10,7 +10,7 @@ function GetEarlyAccess() {
                 const response = await fetch("http://localhost:3001/EarlyAccess/access")
                const result = await response.json()
                console.log(result)
-                setData(result)
+                setData(result.data)
             }
             catch(error){
                 console.log("error");
@@ -26,8 +26,9 @@ function GetEarlyAccess() {
         <div className='bg-white py-2 sticky -top-3 z-3'>
             <h2 className='text-lg'>Early Access Requests</h2>
         <div className='flex flex-row justify-between items-center mb-5' >
-            <h2 className='text-md'>Requests</h2>
-            <button className='bg-black rounded-lg text-white px-2 py-1'>Reply To All</button>
+            <p className='text-lg'> <span>{data.length} </span>Requests</p>
+            <a href={`mailto:${data.map(item => item.email).join(',')}`}><button className='bg-black rounded-lg text-white px-2 py-1 ' >Reply To All</button>
+</a>
         </div>
         </div>
             {data.map((item, index) => (
@@ -37,7 +38,7 @@ function GetEarlyAccess() {
                    <div className='text-lg'>{item.email}</div>
                    </div>
                    <div>
-                    <img src={email} alt="email" />
+                    <a href={`mailto:${item.email}`} className="w-8 h-8 block mt-1"><img src={email} alt="email"  /></a>
                    </div>
                 </div>
             ))}
