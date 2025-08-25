@@ -16,7 +16,6 @@ function Mangemployee() {
   }, [])
   console.log("....data", data)
 
-
   const handleDelete = (id) => {
     fetch("http://localhost:", {
       method: "DELETE",
