@@ -6,6 +6,7 @@ import Search from "./Search";
 import ExportPDF from "./pdf";
 import Button from "./filter";
 import sendEmail from "./sendEmail"; 
+import TopComponent from "./TopComponent";
 const PrescriptionOrder = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -70,6 +71,7 @@ const PrescriptionOrder = () => {
 
   return (
     <div>
+      <TopComponent />
       <div className="flex justify-between py-4 px-4">
         <div>
         <p>Prescription Orders</p>
