@@ -1,19 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import { Route, Routes } from 'react-router'
-import index from './pages/Home'
+import Home from './pages/Home'
 import Authentication from './pages/Authentication/Authentication'
+import Data from './pages/data'
+import NavBarContext from "./context/NavBarContext"
+import Sidenavbar from './components/Navigation/Sidenavbar'
+import Prescription from "./pages/Prescription"
+import Investors from './components/Investors'
 
 function App() {
-
   return (
     <>
-     <Routes>
-      <Route path='/' Component={index} />
-      <Route path='/auth' Component={Authentication} />
-     </Routes>
+          <NavBarContext>
+        <div className='flex w-full h-[100vh] jusity-center align-center border-box'>
+          <Sidenavbar className="flex-shrink" />
+          <div className='flex-1'>
+            <Routes >
+              <Route path="/" element={<Home />} />
+              <Route path="/auth" element={<Authentication />} />
+              <Route path="/data" element={<Data />} />
+              <Route path="/contact" element={<Data />} />
+              <Route path="/investor" element={<Investors />} />
+              <Route path="/employee" element={<Data />} />
+              <Route path="/prescription" element={<Prescription />} />
+            </Routes>
+          </div>
+        </div>
+      </NavBarContext>
     </>
   )
 }

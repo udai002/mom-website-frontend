@@ -19,34 +19,34 @@ import Button from "./Button";
 const OptionsList = [
   {
     id: 1,
-    title: "Investory Responsive",
+    title: "Investors Response",
     icon:<CiGrid41 className="h-7 w-7" />,
-    link: "",
+    link: "/investor",
   },
   {
     id: 2,
-    title: "Users Responsive",
+    title: "Users Response",
     icon: <GrIteration className="h-6 w-6"/>,
-    link: null,
+    link: "/contact",
    
   },
   {
     id: 3,
     title: " Prescription Orders",
     icon: <GrWorkshop className="h-6 w-6"/>,
-    link: null
+    link: "/prescription"
   },
   {
     id: 4,
     title: "Manage Jobs",
     icon: <TiExportOutline className="h-6 w-6"/>,
-    link: "adjflkjd",
+    link: "/job",
   },
   {
     id: 5,
     title: "Manage Employes",
     icon: <FaRegUser className="h-6 w-6"/>,
-    link: "jkflaksd",
+    link: "/employee",
   },
   
 ];
@@ -54,7 +54,7 @@ const OptionsList = [
 function Scrollbody() {
   return (
     <>
-      <div className="overflow-y-auto  h-[60%] scrollbar-hide mt-2 border-b-[1px] p-2 w-72  ">
+      <div className="overflow-y-auto  h-[60%] overflew-scrollbar-hide mt-2 border-b-[1px] p-2 w-72  ">
         {OptionsList.map((item) =><Button className="" link={item.link}  icon={item.icon} title={item.title} options={item.options} />)}
       </div>
     </>

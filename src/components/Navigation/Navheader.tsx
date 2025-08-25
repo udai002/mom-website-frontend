@@ -16,7 +16,7 @@ function handleOpenOptions() {
 }
   return (
     <>
-      <div className="flex gap-4 overflow-hidden m-3y">
+      <div className="flex gap-4 overflow-hidden">
        <div className="border-b-[1px]  flex flex-row gap-4 p-2 ">
         <div className=" ">
           <h1 className="text-[#00a99d] bg-white  rounded-[15px] px-3 py-1 text-[25px] font-semibold text-center ">

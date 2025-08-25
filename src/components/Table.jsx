@@ -1,12 +1,20 @@
+import Filter from "./filter"
+import Search from "./Search";
 
 const Table = ({ data, columns, emptyMessage = "No data available." }) => {
     if (!data || data.length === 0) {
         return <p>{emptyMessage}</p>;
     }
+    
 
     return (
+        <div className=" w-full justify-center align-center">
+            <Search />
+            <Filter />
+        
         <div className='flex w-full justify-center align-center'>
-            <table className='w-[80%] border-collapse'>
+            
+            <table className='w-[95%] border-collapse'>
                 <thead>
                     <tr className=''>
 
@@ -30,6 +38,7 @@ const Table = ({ data, columns, emptyMessage = "No data available." }) => {
                     ))}
                 </tbody>
             </table>
+        </div>
         </div>
     );
 };
