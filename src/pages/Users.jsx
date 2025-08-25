@@ -10,21 +10,21 @@ function Users() {
 
   return (
     <div className='mt-10 '>
-      <div className='flex flex-row justify-evenly items-center'>
+      <div className='flex flex-row justify-between items-center'>
         <div>
           <h2 className='text-lg'>User Response</h2>
         </div>
-        {/* <ExportPDF elementId="users" fileName="Users.pdf" /> */}
+       <div className='flex flex-row gap-3'>
          <Search />
-          <Filter />
-        
+        <ExportPDF elementId="users" fileName="Users.pdf"  />
         <button onClick={() => setShowModal(true)} className='font-200  bg-[#00A79B] text-[#fff] border-2 rounded-xl border-[#00A79B] py-2 px-3 '>Early Access Responses</button>
         {showModal && <Modal onClose={() => setShowModal(false)} />}
+       </div>
       </div>
       <div id="users">
         <ContactUs />
       </div>
-      
+
     </div>
   )
 }
