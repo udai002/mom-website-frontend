@@ -7,7 +7,6 @@ import ExportPDF from "./pdf";
 import Button from "./filter";
 import sendEmail from "./sendEmail"; 
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
-import TopComponent from "./TopComponent";
 
 const PrescriptionOrder = () => {
   const [data, setData] = useState([]);
@@ -93,7 +92,7 @@ const PrescriptionOrder = () => {
     <div>
       <div className="flex justify-between py-4 px-4">
         <div>
-        <p>Prescription Orders</p>
+        <p className="text-xl">Prescription Orders</p>
         </div>
 <div className="flex gap-4">
         <Search onChange={handleSearch}/>
@@ -116,7 +115,7 @@ const PrescriptionOrder = () => {
         {loading ? <p>loading...</p> : 
         <>
         <Table data={data} columns={columns} />
-        <div className="flex justify-center items-center mt-10 gap-4 px-7 flex-row">
+        <div className="flex justify-center items-center py-4 gap-4 px-7 flex-row">
                                     <span className="text-lg flex-1 text-[#444444] font-medium sm:text-base md:text-lg sm:text-left"> Page {page} of {totalPages}</span>
                                     <div className="flex gap-2">
                                         <button onClick={handlePrevious} disabled={page === 1} className={`p-2 bg-[#00a99d] rounded-full ${page === 1 ? "opacity-50 cursor-not-allowed" : ""}`} >
