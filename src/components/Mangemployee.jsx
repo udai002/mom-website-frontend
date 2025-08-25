@@ -9,6 +9,8 @@ import Button from "./filter";
 import filter from "./Buttons";
 import { Link } from "react-router-dom"
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import { Link } from "react-router";
+
 
 function Mangemployee() {
   const [data, setData] = useState([]);

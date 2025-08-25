@@ -20,12 +20,10 @@ import TopComponent from "./components/TopComponent"
 function App() {
   return (
     <>
-    
+  
           <NavBarContext>
         <div className='flex w-full h-[100vh] jusity-center align-center border-box'>
-          
           <Sidenavbar className="flex-shrink" />
-          
           <div className='flex-1'>
             <TopComponent />
             <Routes >

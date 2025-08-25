@@ -91,7 +91,6 @@ const PrescriptionOrder = () => {
 
   return (
     <div>
-      <TopComponent />
       <div className="flex justify-between py-4 px-4">
         <div>
         <p>Prescription Orders</p>
