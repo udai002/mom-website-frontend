@@ -88,7 +88,7 @@ const Investors = () => {
 
     return (
         <div>
-            <TopComponent />
+          
             <div className="flex justify-between p-4 items-center flex-wrap">
                 <p className='text-2xl font-medium '>Investors Response </p>
                 <div className='flex gap-3 mt-2 items-center flex-wrap'>

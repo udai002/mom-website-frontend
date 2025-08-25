@@ -15,7 +15,6 @@ function ContactUs() {
     const [page, setPage] = useState(1);
     const [limit] = useState(5);
     const [totalPages, setTotalPages] = useState(0);
-    const[selectedId , setSelectedId] = useState()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -64,6 +63,9 @@ function ContactUs() {
             ),
         }
     ]
+
+
+
 
     function handleOnChange(e) {
         setSearch(e.target.value);
