@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import ContactUs from '../components/Users.jsx/ContactUs'
+import ContactUs from '../components/Users/ContactUs'
 function Users() {
 
   return (

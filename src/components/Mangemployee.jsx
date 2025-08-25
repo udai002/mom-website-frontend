@@ -36,7 +36,7 @@ function Mangemployee() {
 
 
   const columns = [
-    { id: "id", header: "Employee ID" },
+    { id: "employeeId", header: "Employee ID" },
     { id: "employeeName", header: "Employee Name" },
     { id: "employeedesignation", header: "Designation" },
     {
