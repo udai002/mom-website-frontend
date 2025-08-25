@@ -10,7 +10,7 @@ function Modal({onClose}) {
     }
   return (
     <div ref={modalRef} onClick={closeModal} className='fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-end'>
-        <div className='m-10 bg-white h-[80vh] overflow-y-auto fixed py-10 px-10 '>
+        <div className='m-10 bg-white h-[80vh] overflow-y-auto fixed py-3 px-3 border-2 rounded-xl '>
             <GetEarlyAccess />
         </div>
         </div>

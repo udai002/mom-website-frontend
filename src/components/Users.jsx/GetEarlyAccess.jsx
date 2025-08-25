@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from 'react'
-import Table from "../Table"
+import email from '../../assets/email.png';
 function GetEarlyAccess() {
     const[data,setData]=useState([])
     const[loading , setLoading]=useState(true)
@@ -21,16 +21,28 @@ function GetEarlyAccess() {
         }
         fetchData()
     },[])
-
-    const columns =[
-        {id:"email" , header:"user email" }
-    ]
   return (
-    <div>
-        {loading?
-        (<p>loading...</p>):
-        (<Table data ={data} columns={columns}/>)
-        }
+    <div >
+        <div className='bg-white py-2 sticky -top-3 z-3'>
+            <h2 className='text-lg'>Early Access Requests</h2>
+        <div className='flex flex-row justify-between items-center mb-5' >
+            <h2 className='text-md'>Requests</h2>
+            <button className='bg-black rounded-lg text-white px-2 py-1'>Reply To All</button>
+        </div>
+        </div>
+            {data.map((item, index) => (
+                <div key={index} className='flex flex-row justify-between border border-black mb-2 p-2 rounded-xl items-center'>
+                   <div>
+                     <h3 className='text-xs'>Email ID</h3>
+                   <div className='text-lg'>{item.email}</div>
+                   </div>
+                   <div>
+                    <img src={email} alt="email" />
+                   </div>
+                </div>
+            ))}
+            
+        
     </div>
   )
 }
