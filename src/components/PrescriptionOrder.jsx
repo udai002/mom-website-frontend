@@ -6,12 +6,17 @@ import Search from "./Search";
 import ExportPDF from "./pdf";
 import Button from "./filter";
 import sendEmail from "./sendEmail"; 
+import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+
 const PrescriptionOrder = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showImage, setShowImage] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10); 
+  const [totalPages, setTotalPages] = useState(0);
 
 
 
@@ -19,11 +24,13 @@ const PrescriptionOrder = () => {
     const fetchingData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/UploadPrescription/Prescription?search=${search}`
+          `http://localhost:3000/UploadPrescription/Prescription?search=${search}&page=${page}&limit=${limit}`
         );
         const result = await response.json();
         console.log("data fetching", result);
         setData(result.data);
+        setTotalPages(Math.ceil(result.total / limit));
+        setTotalResponses(result.total);
       } catch (error) {
         console.log("error in fetching prescriptions");
       } finally {
@@ -31,11 +38,24 @@ const PrescriptionOrder = () => {
       }
     };
     fetchingData();
-  }, [search]);
+  }, [search, page, limit]);
 
   const handleSearch = (e) =>{
-    setSearch(e.target.value)
-  }
+    setSearch(e.target.value);
+            setPage(1); 
+    }
+    
+        const handlePrevious = () => {
+        if (page > 1) {
+            setPage(page - 1);
+        }
+    };
+
+    const handleNext = () => {
+        if (page < totalPages) {
+            setPage(page + 1);
+        }
+    }; 
 
   const columns = [
     { id: "name", header: "User Name" },
@@ -92,7 +112,22 @@ const PrescriptionOrder = () => {
         </button>
       </div>
       <div id="prescription">
-        {loading ? <p>loading...</p> : <Table data={data} columns={columns} />}
+        {loading ? <p>loading...</p> : 
+        <>
+        <Table data={data} columns={columns} />
+        <div className="flex justify-center items-center mt-10 gap-4 px-7 flex-row">
+                                    <span className="text-lg flex-1 text-[#444444] font-medium sm:text-base md:text-lg sm:text-left"> Page {page} of {totalPages}</span>
+                                    <div className="flex gap-2">
+                                        <button onClick={handlePrevious} disabled={page === 1} className={`p-2 bg-[#00a99d] rounded-full ${page === 1 ? "opacity-50 cursor-not-allowed" : ""}`} >
+                                            <FaArrowLeftLong className="text-2xl text-white" />
+                                        </button>
+                                        <button onClick={handleNext} disabled={page === totalPages} className={`p-2 bg-[#00a99d] rounded-full ${page === totalPages ? "opacity-50 cursor-not-allowed" : ""}`} >
+                                            <FaArrowRightLong className="text-2xl text-white" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </>
+        }
 
         {showModal && showImage && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
