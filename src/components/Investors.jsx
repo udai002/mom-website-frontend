@@ -8,6 +8,7 @@ import ExportPDF from './pdf'
 import Button from './filter'
 import filter from './Buttons'
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import TopComponent from "./TopComponent";
 
 const Investors = () => {
     const [data, setData] = useState([])
@@ -87,6 +88,7 @@ const Investors = () => {
 
     return (
         <div>
+            <TopComponent />
             <div className="flex justify-between p-4 items-center flex-wrap">
                 <p className='text-2xl font-medium '>Investors Response </p>
                 <div className='flex gap-3 mt-2 items-center flex-wrap'>
