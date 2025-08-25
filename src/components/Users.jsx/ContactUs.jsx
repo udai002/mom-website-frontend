@@ -15,6 +15,7 @@ function ContactUs() {
     const [page, setPage] = useState(1);
     const [limit] = useState(5);
     const [totalPages, setTotalPages] = useState(0);
+    const[selectedId , setSelectedId] = useState()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -42,7 +43,7 @@ function ContactUs() {
         { id: "supportType", header: "SupportType" },
         { id: "description", header: "Description",
             cell:(row) => (
-                <div className='w-80 items-center'>
+                <div className='w-60 items-center'>
                     {row.description}
                 </div>
             )
@@ -56,7 +57,7 @@ function ContactUs() {
                         <img src={Delete} className="w-6 h-6 block" />
                     </button>
                     <div>
-                        <a href={`mailto:${email}`} className="w-6 h-6 block mt-1"><img src={email} alt="email" /></a>
+                        <a href={`mailto:${row.email}`} className="w-6 h-6 block mt-1"><img src={email} alt="email" /></a>
                     </div>
 
                 </div>
