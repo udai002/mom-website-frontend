@@ -29,9 +29,9 @@ const ExportPDF = ({ elementId, fileName = "download.pdf" }) => {
     <div>
     <button
       onClick={handleDownload}
-      className="px-4 py-2 bg-white-500 text-[#00a79b] rounded-lg inline hover:bg-[#00a99a] border-[#00a79b] hover:text-white border"
+      className="px-2 py-2 bg-white-500 text-[#00a79b] rounded-lg flex inline hover:bg-[#00a99a] border-[#00a79b] group hover:text-white border"
     >
-      Export <img src={hi} alt="export"/>
+      Export <img src={hi} className="w-5 h-5 hover:bg-white" alt="export"/>
     </button>
     </div>
   );

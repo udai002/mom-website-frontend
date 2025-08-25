@@ -5,18 +5,21 @@ import share from "../assets/share.png";
 import Search from "./Search";
 import ExportPDF from "./pdf";
 import Button from "./filter";
-
+import sendEmail from "./sendEmail"; 
 const PrescriptionOrder = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showImage, setShowImage] = useState(null);
-  const [showModal, setShowModal] = useState(false); 
+  const [showModal, setShowModal] = useState(false);
+  const [search, setSearch] = useState('');
+
+
 
   useEffect(() => {
     const fetchingData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/UploadPrescription/Prescription"
+          `http://localhost:3000/UploadPrescription/Prescription?search=${search}`
         );
         const result = await response.json();
         console.log("data fetching", result);
@@ -28,7 +31,11 @@ const PrescriptionOrder = () => {
       }
     };
     fetchingData();
-  }, []);
+  }, [search]);
+
+  const handleSearch = (e) =>{
+    setSearch(e.target.value)
+  }
 
   const columns = [
     { id: "name", header: "User Name" },
@@ -50,11 +57,11 @@ const PrescriptionOrder = () => {
               }
             }}
           >
-            <img src={presciption} alt="View Prescription" />
+            <img src={presciption} alt="View Prescription" className="w-5 h-6" />
           </button>
 
-          <button onClick={() => alert(`Share ${row.name}`)}>
-            <img src={share} alt="Share" />
+          <button onClick={() => sendEmail(row)}>
+            <img src={share} alt="Share" className="w-5 h-5"/>
           </button>
         </div>
       ),
@@ -63,14 +70,27 @@ const PrescriptionOrder = () => {
 
   return (
     <div>
-      <div className="flex justify-between p-4">
+      <div className="flex justify-between py-4 px-4">
+        <div>
         <p>Prescription Orders</p>
-
-
-        <Search />
+        </div>
+<div className="flex gap-4">
+        <Search onChange={handleSearch}/>
         <Button />
+        <ExportPDF elementId="prescription" fileName="prescriptions.pdf" />
+        </div>
       </div>
 
+      <div className="flex justify-between px-5 py-3">
+        <p>Total {data.length} Responses</p>
+        <p>No filters applied</p>
+        <button
+          className="px-2 py-2 bg-white-500 text-[#00a79b] rounded-lg flex gap-2 inline hover:bg-[#00a99a] border-[#00a79b] group hover:text-white border"
+        >
+          Forward Selections{" "}
+          <img src={share} className="w-5 h-5 hover:text-white" alt="export" />
+        </button>
+      </div>
       <div id="prescription">
         {loading ? <p>loading...</p> : <Table data={data} columns={columns} />}
 
