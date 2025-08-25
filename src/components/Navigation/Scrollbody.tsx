@@ -12,10 +12,6 @@ import Button from "./Button";
 
 
 
-
-
-
-
 const OptionsList = [
   {
     id: 1,

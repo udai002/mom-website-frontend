@@ -8,6 +8,7 @@ import Linkedin from '../assets/Employee/linkedin.png'
 
 
 function Mangemployee() {
+  console.log("error ")
 const [data,setData]=useState([])
 
 
