@@ -16,7 +16,7 @@ const Investors = () => {
     const [showData, setShowData] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [search, setSearch] = useState("")
-     const [page, setPage] = useState(1);
+    const [page, setPage] = useState(1);
     const [limit] = useState(10); 
     const [totalPages, setTotalPages] = useState(0);
 
@@ -88,7 +88,6 @@ const Investors = () => {
 
     return (
         <div>
-            <TopComponent />
             <div className="flex justify-between p-4 items-center flex-wrap">
                 <p className='text-2xl font-medium '>Investors Response </p>
                 <div className='flex gap-3 mt-2 items-center flex-wrap'>
