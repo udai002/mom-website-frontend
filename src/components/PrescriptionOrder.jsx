@@ -7,6 +7,7 @@ import ExportPDF from "./pdf";
 import Button from "./filter";
 import sendEmail from "./sendEmail"; 
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import TopComponent from "./TopComponent";
 
 const PrescriptionOrder = () => {
   const [data, setData] = useState([]);
@@ -90,6 +91,7 @@ const PrescriptionOrder = () => {
 
   return (
     <div>
+      <TopComponent />
       <div className="flex justify-between py-4 px-4">
         <div>
         <p>Prescription Orders</p>
