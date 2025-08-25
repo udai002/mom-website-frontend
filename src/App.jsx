@@ -10,15 +10,20 @@ import Contact from "./pages/Users"
 import Employee  from "./pages/Employee"
 import Mangemployee from './components/ManageJobs'
 import ManageJobs from "./pages/Jobs"
+import TopComponent from "./components/TopComponent"
 
 
 function App() {
   return (
     <>
+    
           <NavBarContext>
         <div className='flex w-full h-[100vh] jusity-center align-center border-box'>
+          
           <Sidenavbar className="flex-shrink" />
+          
           <div className='flex-1'>
+            <TopComponent />
             <Routes >
               <Route path="/" Component={Mangemployee} />
               <Route path="/auth" element={<Authentication />} />
