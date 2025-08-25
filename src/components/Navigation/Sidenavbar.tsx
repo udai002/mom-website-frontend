@@ -19,7 +19,7 @@ function Sidenavbar() {
     
     <>
     {open==true?<>  <div className="flex flex-row h-screen">
-      <div className="bg-[#00a99d] p-2 pt-4 m-3 rounded-[20px]  ">
+      <div className="bg-[#00a99d] p-1 pt-4 m-1 rounded-[20px]  ">
         <Navheader />
         <Scrollbody />
         <Bottomnav />

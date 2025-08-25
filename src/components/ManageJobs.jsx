@@ -10,8 +10,6 @@ import { MapPinPlusInside } from 'lucide-react';
 
 function Mangemployee() {
 const [data,setData]=useState([])
-
-
  useEffect(()=>{
     fetch("http://localhost:3000/job/displayjobs")
     .then(res=>res.json())
@@ -29,7 +27,7 @@ const [data,setData]=useState([])
     {id:"expiryDate",header:"Expiry Date"},
     {id:"location",header:"Job Location"},
     {id:"jobName",header:"Job Type"},
-    // {id:"employeeUrl",header:"Action"},
+  
 
 
 

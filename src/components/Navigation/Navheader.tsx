@@ -1,6 +1,7 @@
 import React, { useContext} from "react";
 
 import { Store } from "../../context/NavBarContext";
+import Sidebar from "../../assets/sidebar.png"
 
 export const Navheader = () => {
   // const [openBar, setOpenBar] = useState(false);
@@ -11,12 +12,11 @@ export const Navheader = () => {
   
 
 function handleOpenOptions() {
-  // setOpenBar(!openBar);
   setOpen(false)
 }
   return (
     <>
-      <div className="flex gap-4 overflow-hidden m-3y">
+      <div className="flex gap-4 overflow-hidden">
        <div className="border-b-[1px]  flex flex-row gap-4 p-2 ">
         <div className=" ">
           <h1 className="text-[#00a99d] bg-white  rounded-[15px] px-3 py-1 text-[25px] font-semibold text-center ">
@@ -30,7 +30,7 @@ function handleOpenOptions() {
         <div className="mt-4 ">
           <img
             className="size-[30px] "
-            src="./Arrow.png"
+            src={Sidebar}
             onClick={handleOpenOptions}
           ></img>
         </div>
