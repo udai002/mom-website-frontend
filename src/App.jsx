@@ -10,7 +10,11 @@ import Contact from "./pages/Users"
 import Employee  from "./pages/Employee"
 import Mangemployee from './components/ManageJobs'
 import ManageJobs from "./pages/Jobs"
+
+import Edit from "./components/Users/Editemp"
+
 import TopComponent from "./components/TopComponent"
+
 
 
 function App() {
@@ -30,6 +34,8 @@ function App() {
               <Route path="/investor" element={<Investors />} />
               <Route path="/employee" element={<Employee />} />
               <Route path="/prescription" element={<Prescription />} />
+              <Route path="/edit" element={<Edit/>} />
+              
             </Routes>
           </div>
         </div>
