@@ -14,6 +14,9 @@ const Investors = () => {
     const [showData, setShowData] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
+    const [filterDate, setFilterDate] = useState("")
+    const [originalData, setOriginalData] = useState([])
+
     useEffect(() => {
         const InvestorsData = async () => {
             try {
@@ -22,6 +25,7 @@ const Investors = () => {
                 const result = await response.json();
                 console.log("data is not fetching", result)
                 setData(result.investors);
+                setOriginalData(result.investors);
             } catch (error) {
                 console.log("data not fetching", error)
             } finally {
@@ -30,6 +34,28 @@ const Investors = () => {
         };
         InvestorsData();
     }, [])
+
+
+    useEffect(() => {
+        if (!filterDate) {
+            setData(originalData) 
+            return
+        }
+
+        const filtered = originalData.filter((item) => {
+            if (!item.createdAt) return false
+            const created = new Date(item.createdAt)
+            const selected = new Date(filterDate)
+
+            return (
+                created.getFullYear() === selected.getFullYear() &&
+                created.getMonth() === selected.getMonth() &&
+                created.getDate() === selected.getDate()
+            )
+        })
+        setData(filtered)
+    }, [filterDate, originalData])
+    
 
 
     const columns = [
@@ -61,10 +87,17 @@ const Investors = () => {
 
     return (
         <div>
-           <div className="flex justify-between p-4">
+           <div className="flex justify-between p-4 ">
         <p className='text-2xl font-medium'>Investors Response</p>
         <Search />
-         {/* <ExportPDF elementId="invest" fileName="investors.pdf" /> */}
+        <div className='flex ml-80'>
+        <input 
+          type="date"
+          value={filterDate}
+          onChange={(e) => setFilterDate(e.target.value)}       
+          className="border-2 border-[#00A79B80] rounded-2xl p-2 flex gap-3 text-sm  text-[#00A79B]"
+        />
+        </div>
         <filter />
         <Button/>
       </div>
