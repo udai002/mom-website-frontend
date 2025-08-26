@@ -62,8 +62,20 @@ const PrescriptionOrder = () => {
     { id: "contact", header: "Mobile Number" },
     { id: "age", header: "Age" },
     { id: "gender", header: "Gender" },
-    { id: "address", header: "Location" },
-    { id: "additionaldetails", header: "Description" },
+    { id: "address", header: "Location",
+       cell: (row) => (
+                <div className="break-words w-40 m-auto justify-center items-center text-center">
+                  {row.address}
+                </div>
+            ),
+     },
+    { id: "additionaldetails", header: "Description" ,
+      cell: (row) => (
+                <div className="break-words w-40 m-auto justify-center items-center text-center">
+                  {row.additionaldetails}
+                </div>
+            ),
+    },
     {
       id: "actions",
       header: "Actions",
