@@ -2,11 +2,21 @@ import React from "react";
 import Button from "./Button";
 import { IoIosLogOut } from "react-icons/io";
 
+import { MdOutlineHelpOutline } from "react-icons/md";
+import { IoSettingsOutline } from "react-icons/io5";
+import useAdmin from "../../context/AuthContext";
+
 
 function Bottomnav() {
+  const {logout} = useAdmin()
+
+  function handleLogout(){
+    logout()
+  }
   return (
-    <div className="flex flex-col border-t-[1px] mt-20 ml-2 ">
-      <Button title="Log Out" icon={<IoIosLogOut className="h-7 w-7"/>} />
+    <div className="flex flex-col ">
+      <Button onclick={handleLogout}  title="Log Out" icon={<IoIosLogOut className="h-7 w-7"/>} />
+
     </div>
   );
 }

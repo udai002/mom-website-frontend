@@ -6,7 +6,8 @@ type ButtonProps = {
   icon: React.ReactNode;
   title: string;
   className?: string;
-  link?: string;
+  link?: string; 
+  onclick?:void
 };
 
 function Button(props: ButtonProps) {
@@ -83,12 +84,17 @@ function Button(props: ButtonProps) {
 
       ) : (
         <button
-          onClick={handleOpenOptions}
-          className={`${open
-              ? `flex items-center justify-between text-white px-2 m-1 mt-4 rounded-[10px] py-2 transition-colors duration-200 ${isActive
-                ? "bg-white text-[#00a99d]"
-                : "bg-[#00a99d] border border-white hover:bg-white hover:text-[#00a99d]"
-              }`
+
+          onClick={props.onclick}
+          className={`${
+            open
+              ? `flex items-center justify-between text-white px-2 m-1 mt-4 rounded-[10px] py-2 transition-colors duration-200 ${
+                  isActive
+                    ? "bg-white text-[#00a99d]"
+                    : "bg-[#00a99d] border border-white hover:bg-white hover:text-[#00a99d]"
+                }`
+
+
               : "flex text-white m-2 mt-4"
             } ${props.className}`}
         >

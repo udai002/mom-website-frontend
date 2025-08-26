@@ -35,16 +35,16 @@ const AuthenticationForm = () => {
 
 
   return (
-    <div className='p-2'>
-      <form className='flex flex-col items-center gap-2'>
+    <div className='p-2 flex flex-col items-center gap-3'>
         <h1 className=''>Hello Again!</h1>
         <h1 className='font-semibold text-2xl'>Login Here</h1>
         <div className='border-[#00A79B] border-2 p-4 rounded-xl w-80'>
+      <form className='flex flex-col items-center gap-2'>
             <InputText icon={<MdEmail  className='text-2xl text-[#00A79B]'/>} onChange={handleOnChange} value={email} type="email" placeholder="Enter Email"/>
-            {otpSent ? <RequestOTP email={email}/>:<LoginBtn type="submit" onClick={handleSubmit} title={loading?"loading...":"Request OTP"} disabled={disabled}/>}
-           
-        </div>
+           {!otpSent && <LoginBtn type="submit" onClick={handleSubmit} title={loading?"loading...":"Request OTP"} disabled={disabled}/>}
       </form>
+            {otpSent && <RequestOTP email={email}/>}
+        </div>
     </div>
   )
 }
