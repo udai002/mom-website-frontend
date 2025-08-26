@@ -118,7 +118,7 @@ function Mangemployee() {
         </div>
         <div className="flex gap-4">
           <Search onChange={handleSearchChange} />
-          <ExportPDF elementId="prescription" fileName="prescriptions.pdf" />
+          <ExportPDF elementId="jobs" fileName="jobs.pdf" />
 
         </div>
       </div>
@@ -132,7 +132,7 @@ function Mangemployee() {
           <img src={share} className="w-5 h-5 hover:text-white" alt="export" />
         </button>
       </div>
-      <div className=''>
+      <div id="jobs">
         <Table data={data} columns={columns} />
         <div className="flex justify-center items-center mt-10 gap-4 px-7 flex-row">
                 <span className="text-lg flex-1 text-[#444444] font-medium">
