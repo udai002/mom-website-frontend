@@ -115,9 +115,10 @@ const Investors = () => {
 
     return (
         <div> 
-            <div className="flex justify-between p-4 ">
+            <div className="flex justify-between p-4 items-center flex-wrap">
                 <p className='text-2xl font-medium'>Investors Response</p>
-                <Search />
+                <div className='flex gap-3 mt-2 items-center flex-wrap'>
+                <Search  onChange={handleOnChange}/>
                 <div className='flex'>
                     <input
                         type="date"
@@ -128,8 +129,10 @@ const Investors = () => {
                 </div>
                
                 <Button />
+
                 <ExportPDF elementId="investor" fileName="investors.pdf" />
             </div>
+        </div>
 
             <div className="flex justify-between p-4 items-center flex-wrap">
 
