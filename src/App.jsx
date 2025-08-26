@@ -1,7 +1,6 @@
 import './App.css'
 import { Route, Routes, useLocation, useNavigate } from 'react-router'
 import Authentication from './pages/Authentication/Authentication'
-// import Data from './pages/data'
 import NavBarContext from "./context/NavBarContext"
 import Sidenavbar from './components/Navigation/Sidenavbar'
 import Prescription from "./pages/Prescription"
@@ -32,8 +31,8 @@ function App() {
   
   return (
     <>
-  
           <NavBarContext>
+
         <div className='flex w-full h-[100vh] jusity-center align-center border-box'>
           {!nonNavbarPages.includes(pathLocatoin) &&<Sidenavbar className="flex-shrink" />}
           <div className='flex-1'>

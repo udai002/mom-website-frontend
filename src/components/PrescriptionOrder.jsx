@@ -15,8 +15,14 @@ const PrescriptionOrder = () => {
   const [showModal, setShowModal] = useState(false);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
-  const [limit] = useState(10); 
+  const [limit] = useState(6); 
   const [totalPages, setTotalPages] = useState(0);
+
+
+  const [filterDate, setFilterDate] = useState("")
+  const [originalData, setOriginalData] = useState([])
+
+
 
 
 
@@ -29,8 +35,9 @@ const PrescriptionOrder = () => {
         const result = await response.json();
         console.log("data fetching", result);
         setData(result.data);
+        setOriginalData(result.data);
         setTotalPages(Math.ceil(result.total / limit));
-        setTotalResponses(result.total);
+       
       } catch (error) {
         console.log("error in fetching prescriptions");
       } finally {
@@ -38,7 +45,25 @@ const PrescriptionOrder = () => {
       }
     };
     fetchingData();
-  }, [search, page, limit]);
+  }, [search, page, limit])
+
+  useEffect(() => {
+    if (!filterDate) {    
+      setData(originalData)
+        return
+    }
+    const filtered = originalData.filter((item) => {
+      if (!item.createdAt) return false
+      const created = new Date(item.createdAt)
+      const selected = new Date(filterDate)
+      return (
+        created.getFullYear() === selected.getFullYear() &&
+        created.getMonth() === selected.getMonth() &&
+        created.getDate() === selected.getDate()
+      )
+    })
+    setData(filtered)
+  }, [filterDate, originalData])
 
   const handleSearch = (e) =>{
     setSearch(e.target.value);
@@ -62,8 +87,20 @@ const PrescriptionOrder = () => {
     { id: "contact", header: "Mobile Number" },
     { id: "age", header: "Age" },
     { id: "gender", header: "Gender" },
-    { id: "address", header: "Location" },
-    { id: "additionaldetails", header: "Description" },
+    { id: "address", header: "Location",
+       cell: (row) => (
+                <div className="break-words w-40 m-auto justify-center items-center text-center">
+                  {row.address}
+                </div>
+            ),
+     },
+    { id: "additionaldetails", header: "Description" ,
+      cell: (row) => (
+                <div className="break-words w-40 m-auto justify-center items-center text-center">
+                  {row.additionaldetails}
+                </div>
+            ),
+    },
     {
       id: "actions",
       header: "Actions",
@@ -77,11 +114,11 @@ const PrescriptionOrder = () => {
               }
             }}
           >
-            <img src={presciption} alt="View Prescription" className="w-5 h-6" />
+            <img src={presciption} alt="View Prescription" className="w-7 h-8" />
           </button>
 
           <button onClick={() => sendEmail(row)}>
-            <img src={share} alt="Share" className="w-5 h-5"/>
+            <img src={share} alt="Share" className="w-7 h-7"/>
           </button>
         </div>
       ),
@@ -96,6 +133,15 @@ const PrescriptionOrder = () => {
         </div>
 <div className="flex gap-4">
         <Search onChange={handleSearch}/>
+         <div className='flex ml-80'>
+        <input 
+          type="date"
+          value={filterDate}
+          onChange={(e) => setFilterDate(e.target.value)}       
+          className="border-2 border-[#00A79B80] rounded-2xl p-2 flex gap-3 text-sm  text-[#00A79B]"
+        />
+        </div>
+          
         <Button />
         <ExportPDF elementId="prescription" fileName="prescriptions.pdf" />
         </div>
