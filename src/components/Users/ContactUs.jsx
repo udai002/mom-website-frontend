@@ -36,6 +36,23 @@ function ContactUs() {
         fetchData()
     }, [search, page, limit])
 
+
+    const handleDelete = async (id) => {
+        try {
+            const contact = await fetch(`http://localhost:3000/contactus/delete/${id}`, {
+                method: 'DELETE',
+            });
+            if (contact.ok) {
+                alert("are you sure")
+                console.log('Item deleted successfully');
+            } else {
+                console.error('Failed to delete the details.');
+            }
+        } catch (error) {
+            console.error('Error during deletion:', error);
+        }
+    };
+
     const columns = [
         { id: "name", header: "User Name" },
         { id: "email", header: "Email ID" },
