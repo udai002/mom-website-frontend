@@ -1,5 +1,6 @@
-import React from "react";
-import { Link } from "react-router";
+import React, { useContext } from "react";
+import { Link, useLocation } from "react-router"; 
+import { Store } from "../../context/NavBarContext";
 
 type ButtonProps = {
   icon: React.ReactNode;
@@ -9,27 +10,86 @@ type ButtonProps = {
 };
 
 function Button(props: ButtonProps) {
+  const context = useContext(Store);
+  if (!context) {
+    throw new Error("Sidenavbar must be used within a Store.Provider");
+  }
+  const { open, setOpen } = context;
+  const location = useLocation(); 
+
+  function handleOpenOptions() {
+    setOpen(true);
+  }
+
+
+  const isActive = props.link && location.pathname === props.link;
+
+ 
   const content = (
-    <div className="flex items-center gap-5 p-1">
-      {props.icon && <span className="">{props.icon}</span>}
-      <p className="">{props.title}</p>
+    <div className="flex items-center gap-3">
+      {props.icon && <span className={` ${
+            isActive
+              &&"bg-white text-[#00a99d]"
+              
+          }`}>{props.icon}</span>}
+      <p className={` ${
+            isActive
+              &&"bg-white text-[#00a99d]"
+              
+          }`}>{props.title}</p>
     </div>
   );
 
+
+  const icons = (
+    <div className="flex items-center justify-center">
+      {props.icon && (
+        <span
+          className={`p-2 rounded-lg ${
+            isActive
+              ? "bg-white text-[#00a99d]"
+              : "border border-white"
+          }`}
+        >
+          {props.icon}
+        </span>
+      )}
+    </div>
+  );
+
+  const innerContent = open ? content : icons;
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col -ml-3">
       {props.link ? (
         <Link
           to={props.link}
-          className={`flex items-center justify-between px-2 text-white border border-[#c2c2c2] m-1 mt-4 rounded-[10px] py-2 bg-[#00a99d] transition-colors duration-200 hover:bg-white hover:text-[#00a99d] ${props.className}`}
+          className={`${
+            open
+              ? `flex items-center justify-between px-2 text-white m-1 mt-4 rounded-[10px] py-2 transition-colors duration-200 ${
+                  isActive
+                    ? "bg-white text-[#00a99d]" 
+                    : "bg-[#00a99d] border border-white hover:bg-white hover:text-[#00a99d]"
+                }`
+              : "flex text-white m-2 mt-4"
+          } ${props.className}`}
         >
-          {content}
+          {innerContent}
         </Link>
       ) : (
         <button
-          className={`flex items-center justify-between text-white px-2 border border-[#c2c2c2] m-1 mt-4 rounded-[10px] py-2 bg-[#00a99d] transition-colors duration-200 hover:bg-white hover:text-[#00a99d] ${props.className}`}
+          onClick={handleOpenOptions}
+          className={`${
+            open
+              ? `flex items-center justify-between text-white px-2 m-1 mt-4 rounded-[10px] py-2 transition-colors duration-200 ${
+                  isActive
+                    ? "bg-white text-[#00a99d]"
+                    : "bg-[#00a99d] border border-white hover:bg-white hover:text-[#00a99d]"
+                }`
+              : "flex text-white m-2 mt-4"
+          } ${props.className}`}
         >
-          {content}
+          {innerContent}
         </button>
       )}
     </div>

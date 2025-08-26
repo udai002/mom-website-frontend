@@ -8,6 +8,7 @@ import ExportPDF from './pdf'
 import Button from './filter'
 import filter from './Buttons'
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import TopComponent from "./TopComponent";
 
 const Investors = () => {
     const [data, setData] = useState([])
@@ -15,7 +16,7 @@ const Investors = () => {
     const [showData, setShowData] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [search, setSearch] = useState("")
-     const [page, setPage] = useState(1);
+    const [page, setPage] = useState(1);
     const [limit] = useState(10); 
     const [totalPages, setTotalPages] = useState(0);
 
@@ -38,7 +39,7 @@ const Investors = () => {
         }
 
         fetchInvestion();
-    }, [search,  page, limit])
+    }, [search, page, limit])
 
     const columns = [
         { id: 'name', header: 'Investor Name' },
@@ -93,7 +94,7 @@ const Investors = () => {
                     <Search onChange={handleOnChange} />
                     <filter />
                     <Button />
-                    {/* <ExportPDF elementId="invest" fileName="investors.pdf" /> */}
+                    <ExportPDF elementId="invest" fileName="investors.pdf" />
                 </div>
             </div>
             <p className='text-xl px-4 text-gray-600 mb-4 '>Total <span className='text-black'>{data.length}</span> responses</p>
@@ -105,7 +106,7 @@ const Investors = () => {
 
                      <>
                         <Table data={data} columns={columns} />
-                        <div className="flex justify-center items-center mt-10 gap-4 flex-row">
+                        <div className="flex justify-center items-center mt-10 gap-4 px-7 flex-row">
                             <span className="text-lg flex-1 text-[#444444] font-medium sm:text-base md:text-lg sm:text-left"> Page {page} of {totalPages}</span>
                             <div className="flex gap-2">
                                 <button onClick={handlePrevious} disabled={page === 1} className={`p-2 bg-[#00a99d] rounded-full ${page === 1 ? "opacity-50 cursor-not-allowed" : ""}`} >
