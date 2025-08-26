@@ -14,65 +14,82 @@ import { form } from 'framer-motion/client'
 import apiClient from '../utils/apliClent'
 
 function Mangemployee() {
-    const [data,setData]=useState([])
-    const[showform,setShowForm]=useState(false)
-    const [active , setActive] = useState(null)
+  const [data, setData] = useState([])
+  const [showform, setShowForm] = useState(false)
+  const [active, setActive] = useState(null)
 
 
- useEffect(()=>{
+  useEffect(() => {
     fetch("http://localhost:3000/job/displayjobs")
-    .then(res=>res.json())
-    .then(data=>setData(data.alljobs)) }
- ,[]) 
+      .then(res => res.json())
+      .then(data => setData(data.alljobs))
+  }
+    , [])
+
+  const handleDelete = async (id) => {
+    try {
+      const jobs = await fetch(`http://localhost:3000/job/deletejob/${id}`, {
+        method: 'DELETE',
+      });
+      if (jobs.ok) {
+        alert("are you sure")
+        console.log('Item deleted successfully');
+      } else {
+        console.error('Failed to delete the details.');
+      }
+    } catch (error) {
+      console.error('Error during deletion:', error);
+    }
+  };
   // console.log("....data",data)
 
-  function handleActiveJob(data){
+  function handleActiveJob(data) {
     console.log(data)
     setActive(data)
-   }
+  }
 
-   const columns = 
-   [
-    {id:"jobName",header:"Job Name"},
-    {id:"jobId",header:"Job Id"},
-    {id:"currentDate",header:"Creation Date"},
-    {id:"expiryDate",header:"Expiry Date"},
-    {id:"location",header:"Job Location"},
-    // {id:"jobName",header:"Job Type"},
-  
-  {
-      id: "actions",
-      header: "Actions",
-      cell: (row) => (
-        <div className="flex gap-3">
-          <button onClick={() => alert(View `${row.name}`)}>
-    <MapPinPlusInside />
-          </button>
-          <button onClick={()=>handleActiveJob(row)}>
-            <img src={Book} />
-          </button>
-          <button onClick={() => alert(View `${row.name}`)}>
-            <img src={Linkedin}/>
-          </button>
-        </div>
-      ),
-    },
-   ]
+  const columns =
+    [
+      { id: "jobName", header: "Job Name" },
+      { id: "jobId", header: "Job Id" },
+      { id: "currentDate", header: "Creation Date" },
+      { id: "expiryDate", header: "Expiry Date" },
+      { id: "location", header: "Job Location" },
+      // {id:"jobName",header:"Job Type"},
 
-   
+      {
+        id: "actions",
+        header: "Actions",
+        cell: (row) => (
+          <div className="flex gap-3">
+            <button onClick={() => handleDelete(row._id)}>
+              <img src={Delete} className="w-6 h-6 block" />
+            </button>
+            <button onClick={() => handleActiveJob(row)}>
+              <img src={Book} />
+            </button>
+            <button onClick={() => alert(View`${row.name}`)}>
+              <img src={Linkedin} />
+            </button>
+          </div>
+        ),
+      },
+    ]
+
+
   return (
     <>
-     {/* for form */}
-    <>
-      {(showform || active) && (<>
-        <div className='fixed h-screen w-screen  bg-black/45 left-0 top-0 '></div>
-        <JobForm setShowForm={setShowForm} data={active} setActive={setActive} />
+      {/* for form */}
+      <>
+        {(showform || active) && (<>
+          <div className='fixed h-screen w-screen  bg-black/45 left-0 top-0 '></div>
+          <JobForm setShowForm={setShowForm} data={active} setActive={setActive} />
+        </>
+        )}
       </>
-      )}
-    </>
-   <div className="flex justify-between py-4 px-4">
+      <div className="flex justify-between py-4 px-4">
         <div>
-        <p onClick={()=>setShowForm(true)}>Manage Jobs</p>
+          <p onClick={() => setShowForm(true)}>Manage Jobs</p>
         </div>
         <div className="flex gap-4">
           <Search />

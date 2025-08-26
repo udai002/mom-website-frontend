@@ -16,7 +16,7 @@ const Investors = () => {
     const [showModal, setShowModal] = useState(false);
     const [search, setSearch] = useState("")
     const [page, setPage] = useState(1);
-    const [limit] = useState(6); 
+    const [limit] = useState(6);
     const [totalPages, setTotalPages] = useState(0);
 
     const [filterDate, setFilterDate] = useState("")
@@ -48,7 +48,7 @@ const Investors = () => {
 
     useEffect(() => {
         if (!filterDate) {
-            setData(originalData) 
+            setData(originalData)
             return
         }
 
@@ -65,7 +65,7 @@ const Investors = () => {
         })
         setData(filtered)
     }, [filterDate, originalData])
-    
+
 
 
     const columns = [
@@ -84,7 +84,7 @@ const Investors = () => {
                             setShowModal(true);
                         }
                     }}>
-                        <img src={View} alt="View" className='w-8 h-6'/>
+                        <img src={View} alt="View" className='w-8 h-6' />
                     </button>
                     <a href={`mailto:${row.email}`} className="w-8 h-8 block mt-1" title={`Email ${row.name}`}>
                         <img src={Mail} alt="Mail" className='w-6 h-6' />
@@ -97,10 +97,10 @@ const Investors = () => {
 
     function handleOnChange(e) {
         setSearch(e.target.value);
-        setPage(1); 
+        setPage(1);
     }
-    
-        const handlePrevious = () => {
+
+    const handlePrevious = () => {
         if (page > 1) {
             setPage(page - 1);
         }
@@ -110,31 +110,30 @@ const Investors = () => {
         if (page < totalPages) {
             setPage(page + 1);
         }
-    };  
+    };
 
 
     return (
-        <div>
-
-
-           <div className="flex justify-between p-4 ">
-        <p className='text-2xl font-medium'>Investors Response</p>
-        <Search />
-        <div className='flex'>
-        <input 
-          type="date"
-          value={filterDate}
-          onChange={(e) => setFilterDate(e.target.value)}       
-          className="border-2 border-[#00A79B80] rounded-2xl p-2 flex gap-3 text-sm  text-[#00A79B]"
-        />
-        </div>
-        <filter />
-        <Button/>
-      </div>
+        <div> 
+            <div className="flex justify-between p-4 ">
+                <p className='text-2xl font-medium'>Investors Response</p>
+                <Search />
+                <div className='flex'>
+                    <input
+                        type="date"
+                        value={filterDate}
+                        onChange={(e) => setFilterDate(e.target.value)}
+                        className="border-2 border-[#00A79B80] rounded-2xl p-2 flex gap-3 text-sm  text-[#00A79B]"
+                    />
+                </div>
+               
+                <Button />
+                <ExportPDF elementId="investor" fileName="investors.pdf" />
+            </div>
 
             <div className="flex justify-between p-4 items-center flex-wrap">
 
-          
+
             </div>
             <p className='text-xl px-4 text-gray-600 mb-4 '>Total <span className='text-black'>{data.length}</span> responses</p>
 
@@ -143,7 +142,7 @@ const Investors = () => {
                     <p>Loading...</p>
                 ) : (
 
-                     <>
+                    <div id="investor">
                         <Table data={data} columns={columns} />
                         <div className="flex justify-center items-center mt-10 gap-4 px-7 flex-row">
                             <span className="text-lg flex-1 text-[#444444] font-medium sm:text-base md:text-lg sm:text-left"> Page {page} of {totalPages}</span>
@@ -156,7 +155,7 @@ const Investors = () => {
                                 </button>
                             </div>
                         </div>
-                    </>
+                    </div>
                 )}
 
                 {showModal && showData && (

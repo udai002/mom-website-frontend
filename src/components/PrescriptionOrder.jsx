@@ -5,7 +5,7 @@ import share from "../assets/share.png";
 import Search from "./Search";
 import ExportPDF from "./pdf";
 import Button from "./filter";
-import sendEmail from "./sendEmail"; 
+import sendEmail from "./sendEmail";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
 const PrescriptionOrder = () => {
@@ -15,7 +15,7 @@ const PrescriptionOrder = () => {
   const [showModal, setShowModal] = useState(false);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
-  const [limit] = useState(6); 
+  const [limit] = useState(6);
   const [totalPages, setTotalPages] = useState(0);
 
 
@@ -37,7 +37,7 @@ const PrescriptionOrder = () => {
         setData(result.data);
         setOriginalData(result.data);
         setTotalPages(Math.ceil(result.total / limit));
-       
+
       } catch (error) {
         console.log("error in fetching prescriptions");
       } finally {
@@ -48,9 +48,9 @@ const PrescriptionOrder = () => {
   }, [search, page, limit])
 
   useEffect(() => {
-    if (!filterDate) {    
+    if (!filterDate) {
       setData(originalData)
-        return
+      return
     }
     const filtered = originalData.filter((item) => {
       if (!item.createdAt) return false
@@ -65,41 +65,43 @@ const PrescriptionOrder = () => {
     setData(filtered)
   }, [filterDate, originalData])
 
-  const handleSearch = (e) =>{
+  const handleSearch = (e) => {
     setSearch(e.target.value);
-            setPage(1); 
-    }
-    
-        const handlePrevious = () => {
-        if (page > 1) {
-            setPage(page - 1);
-        }
-    };
+    setPage(1);
+  }
 
-    const handleNext = () => {
-        if (page < totalPages) {
-            setPage(page + 1);
-        }
-    }; 
+  const handlePrevious = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  };
 
   const columns = [
     { id: "name", header: "User Name" },
     { id: "contact", header: "Mobile Number" },
     { id: "age", header: "Age" },
     { id: "gender", header: "Gender" },
-    { id: "address", header: "Location",
-       cell: (row) => (
-                <div className="break-words w-40 m-auto justify-center items-center text-center">
-                  {row.address}
-                </div>
-            ),
-     },
-    { id: "additionaldetails", header: "Description" ,
+    {
+      id: "address", header: "Location",
       cell: (row) => (
-                <div className="break-words w-40 m-auto justify-center items-center text-center">
-                  {row.additionaldetails}
-                </div>
-            ),
+        <div className="break-words w-40 m-auto justify-center items-center text-center">
+          {row.address}
+        </div>
+      ),
+    },
+    {
+      id: "additionaldetails", header: "Description",
+      cell: (row) => (
+        <div className="break-words w-40 m-auto justify-center items-center text-center">
+          {row.additionaldetails}
+        </div>
+      ),
     },
     {
       id: "actions",
@@ -118,7 +120,7 @@ const PrescriptionOrder = () => {
           </button>
 
           <button onClick={() => sendEmail(row)}>
-            <img src={share} alt="Share" className="w-7 h-7"/>
+            <img src={share} alt="Share" className="w-7 h-7" />
           </button>
         </div>
       ),
@@ -129,21 +131,21 @@ const PrescriptionOrder = () => {
     <div>
       <div className="flex justify-between py-4 px-4">
         <div>
-        <p className="text-xl">Prescription Orders</p>
+          <p className="text-xl">Prescription Orders</p>
         </div>
-<div className="flex gap-4">
-        <Search onChange={handleSearch}/>
-         <div className='flex'>
-        <input 
-          type="date"
-          value={filterDate}
-          onChange={(e) => setFilterDate(e.target.value)}       
-          className="border-2 border-[#00A79B80] rounded-2xl p-2 flex gap-3 text-sm  text-[#00A79B]"
-        />
-        </div>
-          
-        <Button />
-        <ExportPDF elementId="prescription" fileName="prescriptions.pdf" />
+        <div className="flex gap-4">
+          <Search onChange={handleSearch} />
+          <div className='flex'>
+            <input
+              type="date"
+              value={filterDate}
+              onChange={(e) => setFilterDate(e.target.value)}
+              className="border-2 border-[#00A79B80] rounded-2xl p-2 flex gap-3 text-sm  text-[#00A79B]"
+            />
+          </div>
+
+          <Button />
+          <ExportPDF elementId="prescription" fileName="prescriptions.pdf" />
         </div>
       </div>
 
@@ -158,21 +160,21 @@ const PrescriptionOrder = () => {
         </button>
       </div>
       <div id="prescription">
-        {loading ? <p>loading...</p> : 
-        <>
-        <Table data={data} columns={columns} />
-        <div className="flex justify-center items-center py-4 gap-4 px-7 flex-row">
-                                    <span className="text-lg flex-1 text-[#444444] font-medium sm:text-base md:text-lg sm:text-left"> Page {page} of {totalPages}</span>
-                                    <div className="flex gap-2">
-                                        <button onClick={handlePrevious} disabled={page === 1} className={`p-2 bg-[#00a99d] rounded-full ${page === 1 ? "opacity-50 cursor-not-allowed" : ""}`} >
-                                            <FaArrowLeftLong className="text-2xl text-white" />
-                                        </button>
-                                        <button onClick={handleNext} disabled={page === totalPages} className={`p-2 bg-[#00a99d] rounded-full ${page === totalPages ? "opacity-50 cursor-not-allowed" : ""}`} >
-                                            <FaArrowRightLong className="text-2xl text-white" />
-                                        </button>
-                                    </div>
-                                </div>
-                            </>
+        {loading ? <p>loading...</p> :
+          <>
+            <Table data={data} columns={columns} />
+            <div className="flex justify-center items-center py-4 gap-4 px-7 flex-row">
+              <span className="text-lg flex-1 text-[#444444] font-medium sm:text-base md:text-lg sm:text-left"> Page {page} of {totalPages}</span>
+              <div className="flex gap-2">
+                <button onClick={handlePrevious} disabled={page === 1} className={`p-2 bg-[#00a99d] rounded-full ${page === 1 ? "opacity-50 cursor-not-allowed" : ""}`} >
+                  <FaArrowLeftLong className="text-2xl text-white" />
+                </button>
+                <button onClick={handleNext} disabled={page === totalPages} className={`p-2 bg-[#00a99d] rounded-full ${page === totalPages ? "opacity-50 cursor-not-allowed" : ""}`} >
+                  <FaArrowRightLong className="text-2xl text-white" />
+                </button>
+              </div>
+            </div>
+          </>
         }
 
         {showModal && showImage && (
