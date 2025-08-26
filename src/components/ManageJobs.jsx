@@ -23,8 +23,7 @@ function Mangemployee() {
     fetch("http://localhost:3000/job/displayjobs")
     .then(res=>res.json())
     .then(data=>setData(data.alljobs)) }
- ,[]) 
-  // console.log("....data",data)
+ ,[data]) 
 
   function handleActiveJob(data){
     console.log(data)
@@ -35,7 +34,7 @@ function Mangemployee() {
    [
     {id:"jobName",header:"Job Name"},
     {id:"jobId",header:"Job Id"},
-    {id:"currentDate",header:"Creation Date"},
+    {id:"CurrentDate",header:"Creation Date"},
     {id:"expiryDate",header:"Expiry Date"},
     {id:"location",header:"Job Location"},
     // {id:"jobName",header:"Job Type"},
