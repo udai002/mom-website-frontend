@@ -69,7 +69,7 @@ function ContactUs() {
             header: "Actions",
             cell: (row) => (
                 <div className="flex gap-2 px-1">
-                    <button onClick={() => handleDelete(row.id)}>
+                    <button onClick={() => handleDelete(row._id)}>
                         <img src={Delete} className="w-6 h-6 block" />
                     </button>
                     <div>
