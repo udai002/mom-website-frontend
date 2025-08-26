@@ -9,10 +9,10 @@ import Search from "./Search";
 import ExportPDF from "./pdf";
 import Button from "./filter";
 import share from "../assets/share.png";
-import CreateJob from './createJob'
+
 import { MdCancel } from "react-icons/md";
 import Buttons from "./Buttons";
-import Data from '../assets/date.png'
+import Data from '../assets/date.png'; 
 
 
 function Mangemployee() {
@@ -98,7 +98,7 @@ const locations=["location","Hyderabad","Bangalore","Chennai","Delhi","Mumbai","
 <div className="flex gap-4">
         <Search/>
         <ExportPDF elementId="prescription" fileName="prescriptions.pdf" />
-        <CreateJob/>
+        
         </div>
       </div>
       <div className="flex justify-between px-5 py-3">

@@ -44,9 +44,10 @@ function Mangemployee() {
   // Handle delete
   const handleDelete = async (id, key) => {
     if (!window.confirm("Are you sure you want to delete this employee?")) return;
+    console.log(id,key)
 
     try {
-      const res = await fetch(`http://localhost:3000/employee/${id}?key=${key}`, {
+      const res = await fetch(`http://localhost:3000/employee/deleteemployee/${id}`, {
         method: "DELETE",
       });
       const result = await res.json();
@@ -89,11 +90,12 @@ function Mangemployee() {
     { id: "employeeId", header: "Employee ID" },
     { id: "employeeName", header: "Employee Name" },
     { id: "employeedesignation", header: "Designation" },
+     { id: "Aboutemployee", header: "Description" },
     {
       id: "actions",
       header: "Actions",
       cell: (row) => (
-        <div className="flex gap-3 ml-40">
+        <div className="flex gap-5 ml-5">
           <button onClick={() => handleDelete(row._id, row.Key)}>
             <img src={Delete} className="w-5 h-6" />
           </button>
