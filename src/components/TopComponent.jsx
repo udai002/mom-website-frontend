@@ -4,7 +4,7 @@ import bell from '../assets/bell.png'
 import user from '../assets/user.png'
 const TopComponent = () => {
   return (
-    <div className="p-4 flex justify-between">
+    <div className="p-2 flex justify-between">
       <div className="flex gap-2">
         <button className="border-2 border-teal-500 px-1 rounded-lg h-8">
           Admin

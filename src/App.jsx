@@ -18,6 +18,11 @@ const nonNavbarPages = [
   "/auth"
 ]
 
+import Edit from "./components/Users/Editemp"
+
+import TopComponent from "./components/TopComponent"
+
+
 
 function App() {
   const location = useLocation()
@@ -27,10 +32,12 @@ function App() {
   
   return (
     <>
+  
           <NavBarContext>
         <div className='flex w-full h-[100vh] jusity-center align-center border-box'>
           {!nonNavbarPages.includes(pathLocatoin) &&<Sidenavbar className="flex-shrink" />}
           <div className='flex-1'>
+            <TopComponent />
             <Routes >
               <Route path="/auth" element={<Authentication />} />
               <Route element={<ProtectedRoute/>} >
@@ -40,7 +47,8 @@ function App() {
               <Route path="/investor" element={<Investors />} />
               <Route path="/employee" element={<Employee />} />
               <Route path="/prescription" element={<Prescription />} />
-              </Route>
+              <Route path="/edit" element={<Edit/>} />
+            </Route>
             </Routes>
           </div>
         </div>
