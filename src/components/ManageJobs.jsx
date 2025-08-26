@@ -11,16 +11,25 @@ import share from "../assets/share.png";
 import CreateJob from './createJob'
 import JobForm from './JobForm'
 import { form } from 'framer-motion/client'
+import apiClient from '../utils/apliClent'
 
 function Mangemployee() {
     const [data,setData]=useState([])
     const[showform,setShowForm]=useState(false)
+    const [active , setActive] = useState(null)
+
+
  useEffect(()=>{
     fetch("http://localhost:3000/job/displayjobs")
     .then(res=>res.json())
     .then(data=>setData(data.alljobs)) }
  ,[]) 
   // console.log("....data",data)
+
+  function handleActiveJob(data){
+    console.log(data)
+    setActive(data)
+   }
 
    const columns = 
    [
@@ -39,8 +48,8 @@ function Mangemployee() {
           <button onClick={() => alert(View `${row.name}`)}>
     <MapPinPlusInside />
           </button>
-          <button onClick={() => alert(View `${row.name}`)}>
-            <img src={Book}/>
+          <button onClick={()=>handleActiveJob(row)}>
+            <img src={Book} />
           </button>
           <button onClick={() => alert(View `${row.name}`)}>
             <img src={Linkedin}/>
@@ -49,17 +58,18 @@ function Mangemployee() {
       ),
     },
    ]
+
+   
   return (
     <>
      {/* for form */}
     <>
-      {showform && (<>
+      {(showform || active) && (<>
         <div className='fixed h-screen w-screen  bg-black/45 left-0 top-0 '></div>
-        <JobForm setShowForm={setShowForm}/>
+        <JobForm setShowForm={setShowForm} data={active} setActive={setActive} />
       </>
       )}
     </>
-   <TopComponent/>
    <div className="flex justify-between py-4 px-4">
         <div>
         <p onClick={()=>setShowForm(true)}>Manage Jobs</p>
