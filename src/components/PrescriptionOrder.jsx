@@ -133,7 +133,7 @@ const PrescriptionOrder = () => {
         </div>
 <div className="flex gap-4">
         <Search onChange={handleSearch}/>
-         <div className='flex ml-80'>
+         <div className='flex'>
         <input 
           type="date"
           value={filterDate}

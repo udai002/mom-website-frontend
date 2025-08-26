@@ -6,9 +6,8 @@ import Mail from '../assets/Investors/Mail.png'
 import Search from './Search'
 import ExportPDF from './pdf'
 import Button from './filter'
-import filter from './Buttons'
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
-import TopComponent from "./TopComponent";
+
 
 const Investors = () => {
     const [data, setData] = useState([])
@@ -121,7 +120,7 @@ const Investors = () => {
            <div className="flex justify-between p-4 ">
         <p className='text-2xl font-medium'>Investors Response</p>
         <Search />
-        <div className='flex ml-80'>
+        <div className='flex'>
         <input 
           type="date"
           value={filterDate}
