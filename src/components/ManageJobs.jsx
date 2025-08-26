@@ -12,19 +12,31 @@ import CreateJob from './createJob'
 import JobForm from './JobForm'
 import { form } from 'framer-motion/client'
 import apiClient from '../utils/apliClent'
+import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
 function Mangemployee() {
   const [data, setData] = useState([])
   const [showform, setShowForm] = useState(false)
   const [active, setActive] = useState(null)
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit] = useState(6);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalResponses, setTotalResponses] = useState(0);
+  
 
 
   useEffect(() => {
-    fetch("http://localhost:3000/job/displayjobs")
+    console.log(search)
+    fetch(`http://localhost:3000/job/displayjobs?search=${search}&page=${page}&limit=${limit}`)
       .then(res => res.json())
-      .then(data => setData(data.alljobs))
+      .then(data => {
+        setData(data.alljobs);
+        setTotalPages(Math.ceil(data.total / limit));
+         setTotalResponses(data.total);
+  })
   }
-    , [])
+    , [search, page, limit])
 
   const handleDelete = async (id) => {
     try {
@@ -76,6 +88,19 @@ function Mangemployee() {
       },
     ]
 
+    
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    setPage(1);
+  };
+
+  const handlePrevious = () => {
+    if (page > 1) setPage(page - 1);
+  };
+
+  const handleNext = () => {
+    if (page < totalPages) setPage(page + 1);
+  };
 
   return (
     <>
@@ -92,7 +117,7 @@ function Mangemployee() {
           <p onClick={() => setShowForm(true)}>Manage Jobs</p>
         </div>
         <div className="flex gap-4">
-          <Search />
+          <Search onChange={handleSearchChange} />
           <ExportPDF elementId="prescription" fileName="prescriptions.pdf" />
 
         </div>
@@ -109,6 +134,29 @@ function Mangemployee() {
       </div>
       <div className=''>
         <Table data={data} columns={columns} />
+        <div className="flex justify-center items-center mt-10 gap-4 px-7 flex-row">
+                <span className="text-lg flex-1 text-[#444444] font-medium">
+                  Page {page} of {totalPages}
+                </span>
+                <div className="flex gap-2">
+                  <button
+                    onClick={handlePrevious}
+                    disabled={page === 1}
+                    className={`p-2 bg-[#00a99d] rounded-full ${page === 1 ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                  >
+                    <FaArrowLeftLong className="text-2xl text-white" />
+                  </button>
+                  <button
+                    onClick={handleNext}
+                    disabled={page === totalPages}
+                    className={`p-2 bg-[#00a99d] rounded-full ${page === totalPages ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                  >
+                    <FaArrowRightLong className="text-2xl text-white" />
+                  </button>
+                </div>
+              </div>
       </div>
     </>
   )
