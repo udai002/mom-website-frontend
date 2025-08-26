@@ -2,7 +2,10 @@ import React from 'react'
 import refresh from '../assets/refresh.png'
 import bell from '../assets/bell.png'
 import user from '../assets/user.png'
+import useAdmin from '../context/AuthContext'
 const TopComponent = () => {
+
+  const {adminDetails} = useAdmin()
   return (
     <div className="p-2 flex justify-between">
       <div className="flex gap-2">
@@ -30,8 +33,8 @@ const TopComponent = () => {
         </div>
 
         <div>
-            <p className='text-xl text-[#444444]'>User name</p>
-            <p className='text-sm text-[#444444]'>Designation</p>
+            <p className='text-xl text-[#444444]'>{adminDetails?.name}</p>
+            <p className='text-sm text-[#444444]'>Admin</p>
 
         </div>
       </div>
