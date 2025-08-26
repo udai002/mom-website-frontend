@@ -20,6 +20,9 @@ const Investors = () => {
     const [limit] = useState(10); 
     const [totalPages, setTotalPages] = useState(0);
 
+    const [filterDate, setFilterDate] = useState("")
+    const [originalData, setOriginalData] = useState([])
+
     useEffect(() => {
         async function fetchInvestion() {
             try {
@@ -28,6 +31,9 @@ const Investors = () => {
                 const result = await response.json();
                 console.log("data is not fetching", result)
                 setData(result.investors);
+
+                setOriginalData(result.investors);
+
                 setTotalPages(Math.ceil(result.total / limit));
                 setTotalResponses(result.total);
 
@@ -40,6 +46,28 @@ const Investors = () => {
 
         fetchInvestion();
     }, [search, page, limit])
+
+    useEffect(() => {
+        if (!filterDate) {
+            setData(originalData) 
+            return
+        }
+
+        const filtered = originalData.filter((item) => {
+            if (!item.createdAt) return false
+            const created = new Date(item.createdAt)
+            const selected = new Date(filterDate)
+
+            return (
+                created.getFullYear() === selected.getFullYear() &&
+                created.getMonth() === selected.getMonth() &&
+                created.getDate() === selected.getDate()
+            )
+        })
+        setData(filtered)
+    }, [filterDate, originalData])
+    
+
 
     const columns = [
         { id: 'name', header: 'Investor Name' },
@@ -88,6 +116,22 @@ const Investors = () => {
 
     return (
         <div>
+
+           <div className="flex justify-between p-4 ">
+        <p className='text-2xl font-medium'>Investors Response</p>
+        <Search />
+        <div className='flex ml-80'>
+        <input 
+          type="date"
+          value={filterDate}
+          onChange={(e) => setFilterDate(e.target.value)}       
+          className="border-2 border-[#00A79B80] rounded-2xl p-2 flex gap-3 text-sm  text-[#00A79B]"
+        />
+        </div>
+        <filter />
+        <Button/>
+      </div>
+
             <div className="flex justify-between p-4 items-center flex-wrap">
                 <p className='text-2xl font-medium '>Investors Response </p>
                 <div className='flex gap-3 mt-2 items-center flex-wrap'>
