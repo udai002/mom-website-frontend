@@ -15,7 +15,7 @@ const PrescriptionOrder = () => {
   const [showModal, setShowModal] = useState(false);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
-  const [limit] = useState(10); 
+  const [limit] = useState(6); 
   const [totalPages, setTotalPages] = useState(0);
 
 
@@ -77,11 +77,11 @@ const PrescriptionOrder = () => {
               }
             }}
           >
-            <img src={presciption} alt="View Prescription" className="w-5 h-6" />
+            <img src={presciption} alt="View Prescription" className="w-7 h-8" />
           </button>
 
           <button onClick={() => sendEmail(row)}>
-            <img src={share} alt="Share" className="w-5 h-5"/>
+            <img src={share} alt="Share" className="w-7 h-7"/>
           </button>
         </div>
       ),
