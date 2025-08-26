@@ -5,7 +5,8 @@ type ButtonProps = {
   icon: React.ReactNode;
   title: string;
   className?: string;
-  link?: string;
+  link?: string; 
+  onclick?:void
 };
 
 function Button(props: ButtonProps) {
@@ -26,7 +27,7 @@ function Button(props: ButtonProps) {
           {content}
         </Link>
       ) : (
-        <button
+        <button  onClick={props.onclick}
           className={`flex items-center justify-between text-white px-2 border border-[#c2c2c2] m-1 mt-4 rounded-[10px] py-2 bg-[#00a99d] transition-colors duration-200 hover:bg-white hover:text-[#00a99d] ${props.className}`}
         >
           {content}

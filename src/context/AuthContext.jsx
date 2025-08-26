@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import apiClient from "../utils/apliClent";
+import { useNavigate } from "react-router";
 
 
 const AuthContext = createContext({
@@ -7,7 +8,8 @@ const AuthContext = createContext({
     loading:false , 
     error:false , 
     loginViaEmail:()=>{} , 
-    verifyOtp:()=>{} 
+    verifyOtp:()=>{} , 
+    logout:()=>{}
 })
 
 function AuthProvider({children}){
@@ -15,10 +17,27 @@ function AuthProvider({children}){
     const [loading , setLoading] = useState(false)
     const [error , setError] = useState(false)
     
+    const navigate = useNavigate()
+    
     useEffect(()=>{
         async function fetchAdminDetails(){
-            
+            try{
+                const token = localStorage.getItem("jwt_token")
+                const parsedToken = JSON.parse(token)
+                console.log(parsedToken)
+                const options = {
+                    method:"GET", 
+                    headers:{
+                        "Authorization":`Bearer ${parsedToken}`
+                    }
+                }
+                const response = await apiClient("api/getDetails" , options)
+                setAdminDetails(response.data)
+            }catch(err){
+                console.log("Error in fetching Admin details", err)
+            }
         }
+        fetchAdminDetails()
     } , [])
 
     //login otp
@@ -26,6 +45,7 @@ function AuthProvider({children}){
         try{
             const options = {
                 method:"POST", 
+                credentials: "include",
                 headers:{
                     "Content-Type":"application/json" , 
                 },
@@ -49,6 +69,7 @@ function AuthProvider({children}){
           try{
             const options = {
                 method:"POST", 
+                credentials: "include",
                 headers:{
                     "Content-Type":"application/json" , 
                 },
@@ -58,7 +79,9 @@ function AuthProvider({children}){
             const reponse = await apiClient("api/login-verfication" , options)
             setLoading(false)
             if(reponse){
-                localStorage.setItem("jwt_token" , reponse.token)
+                const JSONToken= JSON.stringify(reponse.token)
+                localStorage.setItem("jwt_token" , JSONToken)
+                navigate("/")
                 return true
             }else{
                 return false
@@ -68,7 +91,14 @@ function AuthProvider({children}){
         }
     }
 
-    return <AuthContext.Provider value={{adminDetails , loginViaEmail , verifyOtp , loading , error}}>
+    //logout
+    function logout(){
+        localStorage.removeItem("jwt_token")
+        navigate("/auth")
+        
+    }
+
+    return <AuthContext.Provider value={{adminDetails , loginViaEmail , verifyOtp , loading , error , logout}}>
         {children}
     </AuthContext.Provider>
 }
