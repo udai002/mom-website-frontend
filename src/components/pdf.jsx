@@ -31,7 +31,6 @@ const ExportPDF = ({ elementId, fileName = "download.pdf" }) => {
       onClick={handleDownload}
       className="px-4 py-2 bg-white-500 text-[#00a79b] rounded-lg inline  border-[#00a79b] gap-3  border flex flex-row items-center "
     >Export <img src={hi} alt="export" className="h-5 w-5"/>
-
     </button>
     </div>
   );
