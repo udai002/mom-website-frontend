@@ -13,7 +13,7 @@ function ContactUs() {
     const [showModal, setShowModal] = useState(false)
     const [search, setSearch] = useState("")
     const [page, setPage] = useState(1);
-    const [limit] = useState(10);
+    const [limit] = useState(6);
     const [totalPages, setTotalPages] = useState(0);
 
     useEffect(() => {
@@ -36,21 +36,44 @@ function ContactUs() {
         fetchData()
     }, [search, page, limit])
 
+
+    const handleDelete = async (id) => {
+        try {
+            const contact = await fetch(`http://localhost:3000/contactus/delete/${id}`, {
+                method: 'DELETE',
+            });
+            if (contact.ok) {
+                alert("are you sure")
+                console.log('Item deleted successfully');
+            } else {
+                console.error('Failed to delete the details.');
+            }
+        } catch (error) {
+            console.error('Error during deletion:', error);
+        }
+    };
+
     const columns = [
         { id: "name", header: "User Name" },
         { id: "email", header: "Email ID" },
         { id: "supportType", header: "SupportType" },
-        { id: "description", header: "Description" },
+        { id: "description", header: "Description",
+            cell: (row) => (
+                <div className=" flex w-60 m-auto justify-center items-center text-center">
+                  {row.description}
+                </div>
+            ),
+         },
         {
             id: "actions",
             header: "Actions",
             cell: (row) => (
                 <div className="flex gap-2 px-1">
-                    <button onClick={() => handleDelete(row.id)}>
-                        <img src={Delete} className="w-8 h-6 block" />
+                    <button onClick={() => handleDelete(row._id)}>
+                        <img src={Delete} className="w-6 h-6 block" />
                     </button>
                     <div>
-                        <a href={`mailto:${email}`} className="w-8 h-8 block mt-1"><img src={email} alt="email" className='w-6 h-6'/></a>
+                        <a href={`mailto:${row.email}`} className="w-6 h-6 block mt-1"><img src={email} alt="email" className='w-6 h-6'/></a>
                     </div>
 
                 </div>

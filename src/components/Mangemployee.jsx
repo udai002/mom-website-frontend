@@ -13,7 +13,7 @@ function Mangemployee() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [limit] = useState(10);
+  const [limit] = useState(6);
   const [totalPages, setTotalPages] = useState(0);
   const [totalResponses, setTotalResponses] = useState(0);
 
@@ -44,9 +44,10 @@ function Mangemployee() {
   // Handle delete
   const handleDelete = async (id, key) => {
     if (!window.confirm("Are you sure you want to delete this employee?")) return;
+    console.log(id,key)
 
     try {
-      const res = await fetch(`http://localhost:3000/employee/${id}?key=${key}`, {
+      const res = await fetch(`http://localhost:3000/employee/deleteemployee/${id}`, {
         method: "DELETE",
       });
       const result = await res.json();
@@ -89,16 +90,17 @@ function Mangemployee() {
     { id: "employeeId", header: "Employee ID" },
     { id: "employeeName", header: "Employee Name" },
     { id: "employeedesignation", header: "Designation" },
+     { id: "Aboutemployee", header: "Description" },
     {
       id: "actions",
       header: "Actions",
       cell: (row) => (
-        <div className="flex gap-3 ml-40 p-2">
+        <div className="flex gap-5 ml-5">
           <button onClick={() => handleDelete(row._id, row.Key)}>
-            <img src={Delete} className="w-6 h-7" />
+            <img src={Delete} className="w-5 h-6" />
           </button>
           <button onClick={() => handleEdit(row)}>
-            <img src={Book} alt="Edit" />
+            <img src={Book} alt="Edit" className="w-7 h-7" />
           </button>
         </div>
       ),
@@ -171,7 +173,6 @@ function Mangemployee() {
         </div>
       </div>
 
-      {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-xl shadow-lg w-[500px] relative">
