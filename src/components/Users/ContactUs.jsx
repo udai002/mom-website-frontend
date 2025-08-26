@@ -40,17 +40,23 @@ function ContactUs() {
         { id: "name", header: "User Name" },
         { id: "email", header: "Email ID" },
         { id: "supportType", header: "SupportType" },
-        { id: "description", header: "Description" },
+        { id: "description", header: "Description",
+            cell: (row) => (
+                <div className=" flex w-60 m-auto justify-center items-center text-center">
+                  {row.description}
+                </div>
+            ),
+         },
         {
             id: "actions",
             header: "Actions",
             cell: (row) => (
                 <div className="flex gap-2 px-1">
                     <button onClick={() => handleDelete(row.id)}>
-                        <img src={Delete} className="w-8 h-6 block" />
+                        <img src={Delete} className="w-6 h-6 block" />
                     </button>
                     <div>
-                        <a href={`mailto:${email}`} className="w-8 h-8 block mt-1"><img src={email} alt="email" className='w-6 h-6'/></a>
+                        <a href={`mailto:${row.email}`} className="w-6 h-6 block mt-1"><img src={email} alt="email" className='w-6 h-6'/></a>
                     </div>
 
                 </div>
