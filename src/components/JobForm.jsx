@@ -1,4 +1,4 @@
-import {React,useState} from 'react'
+import {React,useEffect,useState} from 'react'
 import apiClient from '../utils/apliClent'
 import { MdCancel } from "react-icons/md";
 import Buttons from "./Buttons";
@@ -8,13 +8,17 @@ import { AnimatePresence,motion} from 'framer-motion';
 const JobForm = ({setShowForm , data, setActive}) => {
 
 
-const type=["Women Career","Early Carrer","Professional",]
+const type=["Type","Women Career","Early Carrer","Professional",]
 const locations=["location","Hyderabad","Bangalore","Chennai","Delhi","Mumbai","Pune","Kolkata","Guargon","Trichy"];
 const date= new Date();
+
+
 const newdate= date.toLocaleString('en-us',{
   hour:'2-digit',
   hour12:true
 })
+
+
 
  const[formdata,setFormData]= useState({
   jobName:data?.jobName || "",
@@ -24,7 +28,7 @@ const newdate= date.toLocaleString('en-us',{
   skills:data?.skills,
   jobDescription:data?.jobDescription || "",
   experience:data?.experience || "",
-  CurrentDate:date,
+  CurrentDate:date
   // ExpiryDate:'', 
 })
 //form data handling
