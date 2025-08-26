@@ -4,62 +4,79 @@ import Delete from '../assets/Employee/Delete.png'
 import Book from '../assets/Employee/Book.png'
 import Linkedin from '../assets/Employee/linkedin.png'
 import { MapPinPlusInside } from 'lucide-react';
-import TopComponent from './TopComponent'
 import Search from "./Search";
 import ExportPDF from "./pdf";
 import Button from "./filter";
 import share from "../assets/share.png";
+import View from '../assets/Investors/View.png'
 
 import { MdCancel } from "react-icons/md";
 import Buttons from "./Buttons";
-import Data from '../assets/date.png'; 
+import Data from '../assets/date.png';
 
 
 function Mangemployee() {
-const [data,setData]=useState([])
-const type=["Women Career","Early Carrer","Professional",]
-const locations=["location","Hyderabad","Bangalore","Chennai","Delhi","Mumbai","Pune","Kolkata","Guargon","Trichy"]
- useEffect(()=>{
+  const [data, setData] = useState([])
+  const type = ["Women Career", "Early Carrer", "Professional",]
+  const locations = ["location", "Hyderabad", "Bangalore", "Chennai", "Delhi", "Mumbai", "Pune", "Kolkata", "Guargon", "Trichy"]
+  useEffect(() => {
     fetch("http://localhost:3000/job/displayjobs")
-    .then(res=>res.json())
-    .then(data=>setData(data.alljobs)) }
- ,[]) 
+      .then(res => res.json())
+      .then(data => setData(data.alljobs))
+  }
+    , [])
 
-  console.log("....data",data)
+  console.log("....data", data)
 
-   const columns = 
-   [
-    {id:"jobName",header:"Job Name"},
-    {id:"jobId",header:"Job Id"},
-    {id:"currentDate",header:"Creation Date"},
-    {id:"expiryDate",header:"Expiry Date"},
-    {id:"location",header:"Job Location"},
-    {id:"jobName",header:"Job Type"},
-  
+  const handleDelete = async (id) => {
+    try {
+      const jobs = await fetch(`http://localhost:3000/job/deletejob/${id}`, {
+        method: 'DELETE',
+      });
+      if (jobs.ok) {
+        alert("are you sure")
+        console.log('Item deleted successfully');
+      } else {
+        console.error('Failed to delete the details.');
+      }
+    } catch (error) {
+      console.error('Error during deletion:', error);
+    }
+  };
+
+  const columns =
+    [
+      { id: "jobName", header: "Job Name" },
+      { id: "jobId", header: "Job Id" },
+      { id: "currentDate", header: "Creation Date" },
+      { id: "expiryDate", header: "Expiry Date" },
+      { id: "location", header: "Job Location" },
+      { id: "jobName", header: "Job Type" },
 
 
 
-  {
-      id: "actions",
-      header: "Actions",
-      cell: (row) => (
-        <div className="flex gap-3">
-          <button onClick={() => alert(View `${row.name}`)}>
-    <MapPinPlusInside />
-          </button>
-          <button onClick={() => alert(View `${row.name}`)}>
-            <img src={Book}/>
-          </button>
-          <button onClick={() => alert(View `${row.name}`)}>
-            <img src={Linkedin}/>
-          </button>
-        </div>
-      ),
-    },
-   ]
+
+      {
+        id: "actions",
+        header: "Actions",
+        cell: (row) => (
+          <div className="flex gap-3">
+            <button onClick={() => handleDelete(row._id)}>
+              <img src={Delete} className="w-6 h-6 block" />
+            </button>
+            <button onClick={() => alert(View`${row.name}`)}>
+              <img src={Book} />
+            </button>
+            <button onClick={() => alert(View`${row.name}`)}>
+               <img src={View} alt="View" className='w-8 h-6'/>
+            </button>
+          </div>
+        ),
+      },
+    ]
   return (
     <>
-    <div className='bg-white w-[80vh] h-[90vh] fixed top-10 ' >
+      <div className='bg-white w-[80vh] h-[90vh] fixed top-10 ' >
        <div className='flex items-center justify-between '>
         <h3>Creating a Job</h3>
         <MdCancel />
@@ -90,30 +107,29 @@ const locations=["location","Hyderabad","Bangalore","Chennai","Delhi","Mumbai","
           </div>
        </div>
     </div>
-   <TopComponent/>
-   <div className="flex justify-between py-4 px-4">
+      <div className="flex justify-between py-4 px-4">
         <div>
-        <p>Manage Jobs</p>
+          <p>Manage Jobs</p>
         </div>
-<div className="flex gap-4">
-        <Search/>
-        <ExportPDF elementId="prescription" fileName="prescriptions.pdf" />
-        
+        <div className="flex gap-4">
+          <Search />
+          <ExportPDF elementId="prescription" fileName="prescriptions.pdf" />
+
         </div>
       </div>
       <div className="flex justify-between px-5 py-3">
-              <p>Total {data.length} Responses</p>
-              <p>No filters applied</p>
-              <button
-                className="px-2 py-2 bg-white-500 text-red-800 rounded-lg flex gap-2 inline hover:bg-[#00a99a] border-red-800 group hover:text-white border"
-              >
-                Delete Selections{" "}
-                <img src={share} className="w-5 h-5 hover:text-white" alt="export" />
-              </button>
-            </div>
-    <div className=''>
-            <Table data={data} columns={columns}/>
-    </div>
+        <p>Total {data.length} Responses</p>
+        <p>No filters applied</p>
+        <button
+          className="px-2 py-2 bg-white-500 text-red-800 rounded-lg flex gap-2 inline hover:bg-[#00a99a] border-red-800 group hover:text-white border"
+        >
+          Delete Selections{" "}
+          <img src={share} className="w-5 h-5 hover:text-white" alt="export" />
+        </button>
+      </div>
+      <div className=''>
+        <Table data={data} columns={columns} />
+      </div>
     </>
   )
 }
