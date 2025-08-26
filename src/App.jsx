@@ -11,14 +11,21 @@ import Employee  from "./pages/Employee"
 import Mangemployee from './components/ManageJobs'
 import ManageJobs from "./pages/Jobs"
 
+import Edit from "./components/Users/Editemp"
+
+import TopComponent from "./components/TopComponent"
+
+
 
 function App() {
   return (
     <>
+  
           <NavBarContext>
         <div className='flex w-full h-[100vh] jusity-center align-center border-box'>
           <Sidenavbar className="flex-shrink" />
           <div className='flex-1'>
+            <TopComponent />
             <Routes >
               <Route path="/" Component={Mangemployee} />
               <Route path="/auth" element={<Authentication />} />
@@ -27,6 +34,8 @@ function App() {
               <Route path="/investor" element={<Investors />} />
               <Route path="/employee" element={<Employee />} />
               <Route path="/prescription" element={<Prescription />} />
+              <Route path="/edit" element={<Edit/>} />
+              
             </Routes>
           </div>
         </div>

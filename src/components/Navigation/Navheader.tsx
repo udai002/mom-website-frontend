@@ -1,42 +1,38 @@
-import React, { useContext} from "react";
-
+import React, { useContext } from "react";
 import { Store } from "../../context/NavBarContext";
-import Sidebar from "../../assets/sidebar.png"
+import Sidebar from "../../assets/sidebar.png";
 
 export const Navheader = () => {
-  // const [openBar, setOpenBar] = useState(false);
-  const {open ,setOpen}=useContext(Store) 
+  const { open, setOpen } = useContext(Store);
 
-  console.log("...in Navheader",open)
+  function handleToggle() {
+    setOpen(!open);
+  }
 
-  
-
-function handleOpenOptions() {
-  setOpen(false)
-}
   return (
-    <>
-      <div className="flex gap-4 overflow-hidden">
-       <div className="border-b-[1px]  flex flex-row gap-4 p-2 ">
-        <div className=" ">
-          <h1 className="text-[#00a99d] bg-white  rounded-[15px] px-3 py-1 text-[25px] font-semibold text-center ">
-            m
-          </h1>
-        </div>
-        <div className="text-white flex-row  ">
-          <h1>MOM PHARMACY</h1>
-          <h1>DashBoard</h1>
-        </div>
-        <div className="mt-4 ">
-          <img
-            className="size-[30px] "
-            src={Sidebar}
-            onClick={handleOpenOptions}
-          ></img>
-        </div>
-        </div>
+    <div className="relative border-b flex items-center justify-between p-2">
+    
+      <div className="flex items-center gap-3 -ml-2">
+        <h1 className="text-[#00a99d] bg-white rounded-[15px] px-3 py-1 text-[25px] font-semibold text-center">
+          m
+        </h1>
+        {open && (
+          <div className="text-white leading-tight">
+            <h1 className="font-bold">MOM PHARMACY</h1>
+            <h1 className="text-sm">Dashboard</h1>
+          </div>
+        )}
       </div>
 
-    </>
+      
+      <img
+        className={`size-[40px] cursor-pointer absolute -right-2 top-1/2 -translate-y-1/2 
+         p-1 rounded-full shadow-md transition-transform duration-300
+        ${open ? "" : "rotate-180"}`}
+        src={Sidebar}
+        onClick={handleToggle}
+        alt="toggle"
+      />
+    </div>
   );
 };
