@@ -5,7 +5,7 @@ import Buttons from "./Buttons";
 import Data from '../assets/date.png'
 import { AnimatePresence,motion} from 'framer-motion';
 
-const JobForm = ({setShowForm}) => {
+const JobForm = ({setShowForm , data, setActive}) => {
 
 
 const type=["Women Career","Early Carrer","Professional",]
@@ -17,13 +17,13 @@ const newdate= date.toLocaleString('en-us',{
 })
 
  const[formdata,setFormData]= useState({
-  jobName:'',
-  jobId:'',
-  location:'',
+  jobName:data?.jobName || "",
+  jobId:data?.jobId || "",
+  location:data?.location || "",
   type:'',
-  skills:'',
-  jobDescription:'',
-  experience:'',
+  skills:data?.skills,
+  jobDescription:data?.jobDescription || "",
+  experience:data?.experience || "",
   CurrentDate:date,
   // ExpiryDate:'', 
 })
@@ -39,8 +39,8 @@ const handleChange= async (e)=>{
 //handle reset
 const handleReset= async()=>{
   setFormData({
-  jobId:"",
-  jobName:"",
+  jobId: "",
+  jobName: "",
   type:"",
   location:"",
   experience:"",
@@ -51,10 +51,31 @@ const handleReset= async()=>{
   })
 }
 
-//handle submit
 
-const handleSubmit= async(e)=>{
-   e.preventDefault()
+const updateFunction= async()=>{
+    console.log("this is update" , formdata)
+    try{
+    const options={
+      method:"PUT",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify(formdata)
+    }
+    const response= apiClient(`job/updatejob/${data?._id}`,options)
+    if(response){
+      console.log("jobs updated successfully");
+      alert('jobs updated successfully')
+      setShowForm(false)  
+      setActive(null)    
+    }
+  }
+  catch(e){
+      console.log("Internal Server Error",e);      
+  }
+}
+
+const createFunction =async()=>{
   try{
       const options={
         method:'POST',
@@ -78,16 +99,30 @@ const handleSubmit= async(e)=>{
         
   }
 }
+//handle submit
+
+const handleSubmit= async(e)=>{
+   e.preventDefault()
+   if(data){
+     await updateFunction()
+   }
+   else{
+    await createFunction()
+   }
+}
   return (
 <>
 <AnimatePresence mode='wait'>    
         <motion.div         
-        className=' flex items-center justify-center h-screen w-screen fixed left-0 top-0'>
+        className='flex items-center justify-center h-screen w-screen fixed left-0 top-0'>
      
 <div className='bg-[white] z-10 ' >
        <div className='flex items-center justify-between '>
         <h3>Creating a Job</h3>
-        <MdCancel onClick={()=>setShowForm(false)}/>
+        <MdCancel onClick={()=>{
+            setShowForm(false) 
+            setActive(null)
+        }}/>
        </div>
        <div className=''>
         <div className='flex gap-10 m-5'>
