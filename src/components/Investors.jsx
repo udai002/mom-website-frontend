@@ -17,7 +17,7 @@ const Investors = () => {
     const [showModal, setShowModal] = useState(false);
     const [search, setSearch] = useState("")
     const [page, setPage] = useState(1);
-    const [limit] = useState(10); 
+    const [limit] = useState(6); 
     const [totalPages, setTotalPages] = useState(0);
 
     useEffect(() => {
@@ -57,10 +57,10 @@ const Investors = () => {
                             setShowModal(true);
                         }
                     }}>
-                        <img src={View} alt="View" />
+                        <img src={View} alt="View" className='w-8 h-6'/>
                     </button>
                     <a href={`mailto:${row.email}`} className="w-8 h-8 block mt-1" title={`Email ${row.name}`}>
-                        <img src={Mail} alt="Mail" />
+                        <img src={Mail} alt="Mail" className='w-6 h-6' />
                     </a>
                 </div>
             ),
@@ -88,7 +88,7 @@ const Investors = () => {
 
     return (
         <div>
-            <div className="flex justify-between p-4 items-center flex-wrap">
+            <div className="flex justify-between px-4 items-center flex-wrap">
                 <p className='text-2xl font-medium '>Investors Response </p>
                 <div className='flex gap-3 mt-2 items-center flex-wrap'>
                     <Search onChange={handleOnChange} />

@@ -13,7 +13,7 @@ function ContactUs() {
     const [showModal, setShowModal] = useState(false)
     const [search, setSearch] = useState("")
     const [page, setPage] = useState(1);
-    const [limit] = useState(10);
+    const [limit] = useState(6);
     const [totalPages, setTotalPages] = useState(0);
 
     useEffect(() => {
