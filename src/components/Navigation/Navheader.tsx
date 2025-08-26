@@ -5,9 +5,7 @@ import Sidebar from "../../assets/sidebar.png";
 export const Navheader = () => {
   const { open, setOpen } = useContext(Store);
 
-  function handleToggle() {
-    setOpen(!open);
-  }
+ 
 
   return (
     <div className="relative border-b flex items-center justify-between p-2">
@@ -25,14 +23,7 @@ export const Navheader = () => {
       </div>
 
       
-      <img
-        className={`size-[40px] cursor-pointer absolute -right-2 top-1/2 -translate-y-1/2 
-         p-1 rounded-full shadow-md transition-transform duration-300
-        ${open ? "" : "rotate-180"}`}
-        src={Sidebar}
-        onClick={handleToggle}
-        alt="toggle"
-      />
+     
     </div>
   );
 };

@@ -1,11 +1,5 @@
-import { FaRegUser } from "react-icons/fa6";
-import { CiGrid41 } from "react-icons/ci";
-import { GrWorkshop } from "react-icons/gr";
-import { GrIteration } from "react-icons/gr";
-import { TiExportOutline } from "react-icons/ti";
 import Button from "./Button";
 import SvgIcon from "../SvgIcons/svgicon"
-
 import Job from "../SvgIcons/Job"
 import Investor from "../SvgIcons/Investor"
 import Contact from "../SvgIcons/Contact"

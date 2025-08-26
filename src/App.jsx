@@ -1,7 +1,6 @@
 import './App.css'
 import { Route, Routes } from 'react-router'
 import Authentication from './pages/Authentication/Authentication'
-// import Data from './pages/data'
 import NavBarContext from "./context/NavBarContext"
 import Sidenavbar from './components/Navigation/Sidenavbar'
 import Prescription from "./pages/Prescription"
@@ -22,9 +21,9 @@ function App() {
     <>
   
           <NavBarContext>
-        <div className='flex w-full h-[100vh] jusity-center align-center border-box'>
+        <div className='flex w-full h-[100vh] jusity-center align-center border-box p-2'>
           <Sidenavbar className="flex-shrink" />
-          <div className='flex-1'>
+          <div className='flex-1 -ml-5'>
             <TopComponent />
             <Routes >
               <Route path="/" Component={Mangemployee} />
