@@ -36,6 +36,23 @@ function ContactUs() {
         fetchData()
     }, [search, page, limit])
 
+
+    const handleDelete = async (id) => {
+        try {
+            const contact = await fetch(`http://localhost:3000/contactus/delete/${id}`, {
+                method: 'DELETE',
+            });
+            if (contact.ok) {
+                alert("are you sure")
+                console.log('Item deleted successfully');
+            } else {
+                console.error('Failed to delete the details.');
+            }
+        } catch (error) {
+            console.error('Error during deletion:', error);
+        }
+    };
+
     const columns = [
         { id: "name", header: "User Name" },
         { id: "email", header: "Email ID" },
@@ -52,7 +69,7 @@ function ContactUs() {
             header: "Actions",
             cell: (row) => (
                 <div className="flex gap-2 px-1">
-                    <button onClick={() => handleDelete(row.id)}>
+                    <button onClick={() => handleDelete(row._id)}>
                         <img src={Delete} className="w-6 h-6 block" />
                     </button>
                     <div>
