@@ -15,7 +15,7 @@ const PrescriptionOrder = () => {
   const [showModal, setShowModal] = useState(false);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
-  const [limit] = useState(10); 
+  const [limit] = useState(6); 
   const [totalPages, setTotalPages] = useState(0);
 
 
@@ -87,8 +87,20 @@ const PrescriptionOrder = () => {
     { id: "contact", header: "Mobile Number" },
     { id: "age", header: "Age" },
     { id: "gender", header: "Gender" },
-    { id: "address", header: "Location" },
-    { id: "additionaldetails", header: "Description" },
+    { id: "address", header: "Location",
+       cell: (row) => (
+                <div className="break-words w-40 m-auto justify-center items-center text-center">
+                  {row.address}
+                </div>
+            ),
+     },
+    { id: "additionaldetails", header: "Description" ,
+      cell: (row) => (
+                <div className="break-words w-40 m-auto justify-center items-center text-center">
+                  {row.additionaldetails}
+                </div>
+            ),
+    },
     {
       id: "actions",
       header: "Actions",
@@ -102,11 +114,11 @@ const PrescriptionOrder = () => {
               }
             }}
           >
-            <img src={presciption} alt="View Prescription" className="w-5 h-6" />
+            <img src={presciption} alt="View Prescription" className="w-7 h-8" />
           </button>
 
           <button onClick={() => sendEmail(row)}>
-            <img src={share} alt="Share" className="w-5 h-5"/>
+            <img src={share} alt="Share" className="w-7 h-7"/>
           </button>
         </div>
       ),

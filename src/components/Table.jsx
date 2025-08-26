@@ -9,7 +9,7 @@ const Table = ({ data, columns, emptyMessage = "No data available." }) => {
                 
         <div className='flex w-full justify-center align-center'>
             
-            <table className='w-[95%] border-collapse'>
+            <table className='w-[100%] border-collapse'>
                 <thead>
                     <tr className=''>
 

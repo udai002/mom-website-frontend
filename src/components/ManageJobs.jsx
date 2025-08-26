@@ -4,10 +4,10 @@ import Delete from '../assets/Employee/Delete.png'
 import Book from '../assets/Employee/Book.png'
 import Linkedin from '../assets/Employee/linkedin.png'
 import { MapPinPlusInside } from 'lucide-react';
-import TopComponent from './TopComponent'
 import Search from "./Search";
 import ExportPDF from "./pdf";
 import share from "../assets/share.png";
+
 import CreateJob from './createJob'
 import JobForm from './JobForm'
 import { form } from 'framer-motion/client'
@@ -74,25 +74,25 @@ function Mangemployee() {
         <div>
         <p onClick={()=>setShowForm(true)}>Manage Jobs</p>
         </div>
-<div className="flex gap-4">
-        <Search/>
-        <ExportPDF elementId="prescription" fileName="prescriptions.pdf" />
-        <CreateJob/>
+        <div className="flex gap-4">
+          <Search />
+          <ExportPDF elementId="prescription" fileName="prescriptions.pdf" />
+
         </div>
       </div>
       <div className="flex justify-between px-5 py-3">
-              <p>Total {data.length} Responses</p>
-              <p>No filters applied</p>
-              <button
-                className="px-2 py-2 bg-white-500 text-red-800 rounded-lg flex gap-2 inline hover:bg-[#00a99a] border-red-800 group hover:text-white border"
-              >
-                Delete Selections{" "}
-                <img src={share} className="w-5 h-5 hover:text-white" alt="export" />
-              </button>
-            </div>
-    <div className=''>
-            <Table data={data} columns={columns}/>
-    </div>
+        <p>Total {data.length} Responses</p>
+        <p>No filters applied</p>
+        <button
+          className="px-2 py-2 bg-white-500 text-red-800 rounded-lg flex gap-2 inline hover:bg-[#00a99a] border-red-800 group hover:text-white border"
+        >
+          Delete Selections{" "}
+          <img src={share} className="w-5 h-5 hover:text-white" alt="export" />
+        </button>
+      </div>
+      <div className=''>
+        <Table data={data} columns={columns} />
+      </div>
     </>
   )
 }
