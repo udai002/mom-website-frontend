@@ -7,6 +7,7 @@ import Search from './Search'
 import ExportPDF from './pdf'
 import Button from './filter'
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import apiClient from '../utils/apliClent'
 
 
 const Investors = () => {
@@ -25,9 +26,7 @@ const Investors = () => {
     useEffect(() => {
         async function fetchInvestion() {
             try {
-                const response = await fetch(`http://localhost:3000/api/invest/investors?search=${search}&page=${page}&limit=${limit}`)
-                console.log("data is not fetching", response)
-                const result = await response.json();
+                const result = await apiClient(`api/invest/investors?search=${search}&page=${page}&limit=${limit}`)
                 console.log("data is not fetching", result)
                 setData(result.investors);
 

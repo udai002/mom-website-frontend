@@ -6,6 +6,7 @@ import Modal from "./Modal";
 import ExportPDF from "../pdf";
 import Search from "../Search";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import apiClient from "../../utils/apliClent";
 
 function ContactUs() {
 
@@ -24,10 +25,7 @@ function ContactUs() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(
-                    `http://localhost:3000/contactus/allcontact?search=${search}&page=${page}&limit=${limit}`
-                );
-                const result = await response.json();
+                const result = await apiClient(`contactus/allcontact?search=${search}&page=${page}&limit=${limit}` );
                 console.log(result);
                 setData(result.contacts);
                 setOriginalData(result.contacts);
@@ -46,10 +44,10 @@ function ContactUs() {
 
     const handleDelete = async (id) => {
         try {
-            const contact = await fetch(`http://localhost:3000/contactus/delete/${id}`, {
+            const contact = await apiClient(`contactus/delete/${id}`, {
                 method: 'DELETE',
             });
-            if (contact.ok) {
+            if (contact) {
                 alert("are you sure")
                 console.log('Item deleted successfully');
             } else {

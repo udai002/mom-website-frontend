@@ -28,8 +28,7 @@ function Mangemployee() {
 
   useEffect(() => {
     console.log(search)
-    fetch(`http://localhost:3000/job/displayjobs?search=${search}&page=${page}&limit=${limit}`)
-      .then(res => res.json())
+    apiClient(`job/displayjobs?search=${search}&page=${page}&limit=${limit}`)
       .then(data => {
         setData(data.alljobs);
         setTotalPages(Math.ceil(data.total / limit));
@@ -40,10 +39,10 @@ function Mangemployee() {
 
   const handleDelete = async (id) => {
     try {
-      const jobs = await fetch(`http://localhost:3000/job/deletejob/${id}`, {
+      const jobs = await apiClient(`job/deletejob/${id}`, {
         method: 'DELETE',
       });
-      if (jobs.ok) {
+      if (jobs) {
         alert("are you sure")
         console.log('Item deleted successfully');
       } else {
