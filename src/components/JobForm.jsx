@@ -111,52 +111,131 @@ const handleSubmit= async(e)=>{
    }
 }
   return (
-<>
-<AnimatePresence mode='wait'>    
-        <motion.div         
-        className='flex items-center justify-center h-screen w-screen fixed left-0 top-0'>
-     
-<div className='bg-[white] z-10 ' >
-       <div className='flex items-center justify-between '>
-        <h3>Creating a Job</h3>
-        <MdCancel onClick={()=>{
-            setShowForm(false) 
-            setActive(null)
-        }}/>
-       </div>
-       <div className=''>
-        <div className='flex gap-10 m-5'>
-        <input type="text" placeholder='Job ID' className=' border-1 outline rounded' name='jobId' value={formdata.jobId} onChange={handleChange}/>
-        <input type="text" placeholder='Job role name' className='border-1 outline rounded' name='jobName' value={formdata.jobName} onChange={handleChange}/>
-        </div>
-        <div className='m-5 flex gap-10 '>
-          <select className='border-1 outline w-[33vh] rounded' value={formdata.type} name='type' onChange={handleChange}>
-            {type.map(item=><option value={item}>{item}</option>)}
-          </select >
-           <select className='border-1 outline border-1 outline w-[33vh] rounded' name='location' value={formdata.location} onChange={handleChange}>
-            {locations.map(item=><option value={item}>{item}</option>)}
-          </select>
+    <>
+      <AnimatePresence mode="wait">
+        <motion.div className="flex items-center justify-center h-screen w-screen fixed left-0 top-0">
+          <div className="bg-[white] z-10 p-5">
+            <div className="flex items-center justify-between ">
+              <h3 className="text-xl">Creating a Job</h3>
+
+              <button
+                className="text-xl border border-teal-500 px-2 rounded-xl text-teal-500"
+                onClick={() => {
+                  setShowForm(false);
+                  setActive(null);
+                }}
+              >
+                X
+              </button>
+            </div>
+            <div className="">
+              <div className="flex gap-10 m-5">
+                <input
+                  type="text"
+                  placeholder="Job ID"
+                  className="border p-2 border-teal-500 rounded-xl focus:border-pink-500 focus:bg-pink-100 focus:placeholder-pink-500 focus:outline-none"
+                  name="jobId"
+                  value={formdata.jobId}
+                  onChange={handleChange}
+                />
+                <input
+                  type="text"
+                  placeholder="Job role name"
+                  className="border border-teal-500 p-2 rounded-xl focus:border-pink-500 focus:bg-pink-100 focus:placeholder-pink-500 focus:outline-none"
+                  name="jobName"
+                  value={formdata.jobName}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="m-5 flex gap-10 ">
+                <select
+                  className="border border-teal-500 p-2 w-[33vh] rounded-xl focus:border-pink-500 focus:bg-pink-100 focus:placeholder-pink-500 focus:outline-none"
+                  value={formdata.type}
+                  name="type"
+                  onChange={handleChange}
+                >
+                  {type.map((item) => (
+                    <option value={item}>{item}</option>
+                  ))}
+                </select>
+                <select
+                  className="border border-teal-500 p-2 w-[33vh] rounded-xl focus:border-pink-500 focus:bg-pink-100 focus:placeholder-pink-500 focus:outline-none"
+                  name="location"
+                  value={formdata.location}
+                  onChange={handleChange}
+                >
+                  {locations.map((item) => (
+                    <option value={item}>{item}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex flex-col gap-8 p-2">
+                <input
+                  type="text"
+                  placeholder="Experience"
+                  className=" border border-teal-500 p-1 rounded-xl focus:border-pink-500 focus:bg-pink-100 focus:placeholder-pink-500 focus:outline-none h-[7vh]"
+                  name="experience"
+                  value={formdata.experience}
+                  onChange={handleChange}
+                />
+                <input
+                  type="text"
+                  placeholder="Preferred Skills"
+                  className=" border p-1 border-teal-500 rounded-xl focus:border-pink-500 focus:bg-pink-100 focus:placeholder-pink-500 focus:outline-none h-[7vh]"
+                  name="skills"
+                  value={formdata.skills}
+                  onChange={handleChange}
+                />
+                <textarea
+                  type="text-area"
+                  placeholder="Job Description"
+                  className=" border px-1 border-teal-500 rounded-xl focus:border-pink-500 focus:bg-pink-100 focus:placeholder-pink-500 focus:outline-none align-top"
+                  name="jobDescription"
+                  value={formdata.jobDescription}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="flex justify-between items-center">
+                <h3
+                  value={formdata.creationTime}
+                  name="creationTime"
+                  className="text-gray-400"
+                  onChange={handleChange}
+                >
+                  Creation Date & Time<br></br>
+                  <h1 className="text-black">
+                    {date.toDateString()} | {newdate}{" "}
+                  </h1>
+                </h3>
+                <Buttons
+                  name="Expiry Date and time"
+                  image={Data}
+                  value={formdata.expiryDate}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="flex justify-between m-2 ">
+                <button
+                  type="reset"
+                  className="border-2 border-teal-500 p-1 text-teal-500 rounded"
+                  onClick={handleReset}
+                >
+                  Reset Form
+                </button>
+                <button
+                  type="submit"
+                  className="bg-teal-500 text-white px-1 border-teal-500 rounded-xl"
+                  onClick={handleSubmit}
+                >
+                  Create
+                </button>
+              </div>
+            </div>
           </div>
-          <div className='flex flex-col gap-8 p-2'>
-        <input type="text" placeholder='Experience' className=' border-1 outline rounded h-[7vh]' name='experience' value={formdata.experience} onChange={handleChange}/>
-        <input type="text" placeholder='Preferred Skills' className=' border-1 outline rounded h-[7vh]' name='skills' value={formdata.skills} onChange={handleChange}/>
-        <input type="text-area" placeholder='Job Description' className=' border-1 outline rounded h-[10vh] align-top' name='jobDescription' value={formdata.jobDescription} onChange={handleChange}/>
-          </div>
-          <div className='flex justify-between items-center'> 
-            <h3 value={formdata.creationTime} name='creationTime' onChange={handleChange}>Creation Date & Time<br></br>{date.toDateString()}|{newdate}</h3>
-             <Buttons name="ExpiryDate" image={Data} value={formdata.expiryDate} onChange={handleChange}/>        
-          </div>
-        <div className='flex justify-between m-2 '> 
-          <button type="reset" className='border-1 outline rounded' onClick={handleReset}>Reset</button>
-          <button type="submit" className='border-1 outline rounded' onClick={handleSubmit}>Create</button>
-      </div>
-       </div>
-    </div>
-       </motion.div>
-    
-    </AnimatePresence>
-</>
-  )
+        </motion.div>
+      </AnimatePresence>
+    </>
+  );
 }
 
 export default JobForm
