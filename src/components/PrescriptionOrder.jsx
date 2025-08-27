@@ -7,6 +7,7 @@ import ExportPDF from "./pdf";
 import Button from "./filter";
 import sendEmail from "./sendEmail";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import apiClient from "../utils/apliClent";
 
 const PrescriptionOrder = () => {
   const [data, setData] = useState([]);
@@ -29,10 +30,9 @@ const PrescriptionOrder = () => {
   useEffect(() => {
     const fetchingData = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3000/UploadPrescription/Prescription?search=${search}&page=${page}&limit=${limit}`
+        const result = await apiClient(
+          `UploadPrescription/Prescription?search=${search}&page=${page}&limit=${limit}`
         );
-        const result = await response.json();
         console.log("data fetching", result);
         setData(result.data);
         setOriginalData(result.data);

@@ -8,6 +8,7 @@ import ExportPDF from "./pdf";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import Editemp from "./Users/Editemp";
 import { useNavigate } from "react-router";
+import apiClient from "../utils/apliClent";
 
 function Mangemployee() {
   const [data, setData] = useState([]);
@@ -23,10 +24,8 @@ function Mangemployee() {
   const navigate = useNavigate();
 
  const fetchEmployees = () => {
-  fetch(
-    `http://localhost:3000/employee/allemployees?search=${search}&page=${page}&limit=${limit}`
-  )
-    .then((res) => res.json())
+  apiClient(
+    `employee/allemployees?search=${search}&page=${page}&limit=${limit}`)
     .then((data) => {
       setData(data.data);
       setTotalPages(Math.ceil(data.total / limit));
@@ -41,17 +40,17 @@ function Mangemployee() {
 }, [search, page, limit]);
 
 
-  // Handle delete
+
   const handleDelete = async (id, key) => {
     if (!window.confirm("Are you sure you want to delete this employee?")) return;
     console.log(id,key)
 
     try {
-      const res = await fetch(`http://localhost:3000/employee/deleteemployee/${id}`, {
+      const res = await apiClient(`employee/deleteemployee/${id}`, {
         method: "DELETE",
       });
       const result = await res.json();
-      if (result.status) {
+      if (result) {
         setData((prev) => prev.filter((emp) => emp._id !== id));
         alert("Deleted successfully");
       } else {
@@ -62,7 +61,6 @@ function Mangemployee() {
     }
   };
 
-  // Handle form submission (from Editemp)
   const handleFormSubmit = (newData) => {
     if (editingEmployee) {
       setData((prev) =>
@@ -126,7 +124,7 @@ function Mangemployee() {
         <p className="text-2xl">Manage Employee</p>
         <div className="flex gap-3 mt-2 items-center flex-wrap">
           <Search onChange={handleSearchChange} />
-          <ExportPDF elementId="invest" fileName="employees.pdf" />
+          <ExportPDF elementId="employee" fileName="employees.pdf" />
           <button
             onClick={handleAdd}
             className="font-200 bg-[#00A79B] text-white border-2 rounded-xl border-[#00A79B] py-2 px-3"
