@@ -5,11 +5,11 @@ import Buttons from "./Buttons";
 
 function Button() {
     const data = [
-         {
-        id: 1,
-        name: "DD-MM-YY",
-        image: Data
-    },
+    //      {
+    //     id: 1,
+    //     name: "DD-MM-YY",
+    //     image: Data
+    // },
     //    { id: 2,
     //     name: "More filters",
     //     image: Filter

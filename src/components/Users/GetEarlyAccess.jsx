@@ -1,5 +1,6 @@
 import React, { useEffect,useState } from 'react'
 import email from '../../assets/email.png';
+import apiClient from '../../utils/apliClent';
 function GetEarlyAccess() {
     const[data,setData]=useState([])
     const[loading , setLoading]=useState(true)
@@ -7,8 +8,7 @@ function GetEarlyAccess() {
     useEffect(()=>{
         const fetchData = async()=>{
             try{
-                const response = await fetch("http://localhost:3000/EarlyAccess/access")
-               const result = await response.json()
+                const result = await apiClient("EarlyAccess/access")
                console.log(result)
                 setData(result.data)
             }

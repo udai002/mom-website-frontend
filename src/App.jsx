@@ -33,9 +33,9 @@ function App() {
     <>
           <NavBarContext>
 
-        <div className='flex w-full h-[100vh] jusity-center align-center border-box'>
+        <div className='flex w-full h-[100vh] jusity-center align-center border-box p-2'>
           {!nonNavbarPages.includes(pathLocatoin) &&<Sidenavbar className="flex-shrink" />}
-          <div className='flex-1'>
+          <div className='flex-1 -ml-5'>
             <TopComponent />
             <Routes >
               <Route path="/auth" element={<Authentication />} />
