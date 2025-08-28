@@ -86,9 +86,9 @@ function Button(props: ButtonProps) {
         <button
 
           onClick={props.onclick}
-          className={`${
+          className={`group ${
             open
-              ? `flex items-center justify-between text-white px-2 m-1 mt-4 rounded-[10px] py-2 transition-colors duration-200 ${
+              ? `flex items-center justify-betwee px-2 m-1 mt-4 rounded-[10px] py-2 transition-colors duration-200 ${
                   isActive
                     ? "bg-white text-[#00a99d]"
                     : "bg-[#00a99d] border border-white hover:bg-white hover:text-[#00a99d]"
