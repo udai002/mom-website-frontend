@@ -8,10 +8,12 @@ import ExportPDF from "./pdf";
 import share from "../assets/share.png";
 import JobForm from "./JobForm";
 import apiClient from "../utils/apliClent";
+import { FaPlus } from "react-icons/fa6";
+
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
 function Mangemployee() {
-  const [data, setData] = useState([]); // jobs + dept info
+  const [data, setData] = useState([]);
   const [showform, setShowForm] = useState(false);
   const [active, setActive] = useState(null);
   const [search, setSearch] = useState("");
@@ -20,8 +22,8 @@ function Mangemployee() {
   const [totalPages, setTotalPages] = useState(0);
   const [totalResponses, setTotalResponses] = useState(0);
   const [selectedDepartmentId, setSelectedDepartmentId] = useState(null);
-      const [showData, setShowData] = useState(null);
-      const [showModal, setShowModal] = useState(false);
+  const [showData, setShowData] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     apiClient(`job/departments?search=${search}&page=${page}&limit=${limit}`)
@@ -32,26 +34,33 @@ function Mangemployee() {
         setTotalResponses(response.total || 0);
       })
       .catch((err) => console.error("Error fetching jobs:", err));
-  }, [search, page, limit]);
+  }, [search, page, limit,data]);
 
-  const handleDelete = async (deptId, jobId) => {
-    try {
-      if (!window.confirm("Are you sure you want to delete this job?")) return;
+ const handleDelete = async (deptId, jobId) => {
+  console.log(deptId, jobId)
+  try {
+    if (!window.confirm("Are you sure you want to delete this job?")) return;
 
-      await apiClient(`job/department/${deptId}/job/${jobId}`, {
-        method: "DELETE",
-      });
+    const res = await apiClient(`job/delete/${deptId}/job/${jobId}`, {
+      method: "DELETE",
+    });
 
+    if (res.status === 200) {
+      alert("Job deleted successfully");
       setData((prev) => prev.filter((job) => job._id !== jobId));
-      setTotalResponses((prev) => prev - 1);
-    } catch (error) {
-      console.error("Error during deletion:", error);
+      setTotalResponses(prev => prev - 1);
+    } else {
+      console.error("Failed to delete the job");
     }
-  };
+  } catch (error) {
+    console.error("Error deleting job:", error);
+  }
+};
+
 
   const handleActiveJob = (job) => {
     setActive(job);
-    setSelectedDepartmentId(job.deptId); // ✅ get deptId from job
+    setSelectedDepartmentId(job.deptId);
   };
 
   const columns = [
@@ -81,8 +90,13 @@ function Mangemployee() {
       ),
     },
     {
-      id: "experience",
-      header: "Experience",
+      id: "jobInfo",
+      header: "Job type & exp",
+      cell: (row) => (
+        <span>
+          {row.type} ({row.experience})
+        </span>
+      ),
     },
 
     {
@@ -144,12 +158,16 @@ function Mangemployee() {
 
       <div className="flex justify-between py-4 px-4">
         <div>
-          <p onClick={() => setShowForm(true)}>Manage Jobs</p>
+          <p>Manage Jobs</p>
         </div>
         <div className="flex gap-4">
           <Search onChange={handleSearchChange} />
           <ExportPDF elementId="jobs" fileName="jobs.pdf" />
+          <button className="text-white bg-teal-500 p-3 flex rounded-lg" onClick={() => setShowForm(true)}>Create Job <FaPlus className="w-5 h-5 pt-1" />
+
+          </button>
         </div>
+
       </div>
 
       <div className="flex justify-between px-5 py-3">
@@ -187,23 +205,23 @@ function Mangemployee() {
           </div>
         </div>
 
-        
-                {showModal && showData && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                        <div className="bg-white p-4 rounded-lg shadow-lg max-w-2xl w-full relative">
-                            <button
-                                className="absolute top-2 right-2 text-gray-600 text-xl"
-                                onClick={() => setShowModal(false)}
-                            >
-                                ✕
-                            </button>
 
-                            <p className="mt-4"><strong>{showData}</strong></p>
-                            <p className="text-gray-700">{showData?.jobDescription}</p>
-                        </div>
-                    </div>
-                )
-                }
+        {showModal && showData && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-4 rounded-lg shadow-lg max-w-2xl w-full relative">
+              <button
+                className="absolute top-2 right-2 text-gray-600 text-xl"
+                onClick={() => setShowModal(false)}
+              >
+                ✕
+              </button>
+
+              <p className="mt-4"><strong>{showData}</strong></p>
+              <p className="text-gray-700">{showData?.jobDescription}</p>
+            </div>
+          </div>
+        )
+        }
       </div>
     </>
   );

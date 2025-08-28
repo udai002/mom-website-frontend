@@ -25,14 +25,14 @@ const JobForm = ({ setShowForm, data, setActive, departmentId, setDepartmentId, 
     hour12: true,
   });
 
-  
+
 
   // Initial form state
   const [formdata, setFormData] = useState({
     jobName: data?.jobName || "",
     jobId: data?.jobId || "",
     location: data?.location || "",
-    type: data?.type || "",
+    type: data?.type || null,
     skills: data?.skills || "",
     jobDescription: data?.jobDescription || "",
     experience: data?.experience || "",
@@ -190,6 +190,7 @@ const JobForm = ({ setShowForm, data, setActive, departmentId, setDepartmentId, 
                 </option>
               ))}
             </select>
+
             <select
               className="border border-teal-500 p-2 w-[33vh] rounded-xl"
               name="location"
@@ -232,26 +233,26 @@ const JobForm = ({ setShowForm, data, setActive, departmentId, setDepartmentId, 
             />
           </div>
 
-        {/* Dates */}
-<div className="flex justify-between items-center mt-5">
-  <div>
-    <p className="text-gray-400">Creation Date & Time</p>
-    <h1 className="text-black">
-      {date.toDateString()} | {newdate}
-    </h1>
-  </div>
+          {/* Dates */}
+          <div className="flex justify-between items-center mt-5">
+            <div>
+              <p className="text-gray-400">Creation Date & Time</p>
+              <h1 className="text-black">
+                {date.toDateString()} | {newdate}
+              </h1>
+            </div>
 
-  <div className="flex flex-col">
-    <label className="text-gray-400 mb-1">Expiry Date & Time</label>
-    <input
-      type="date" // allows calendar + time selection
-      className="border border-teal-500 p-2 rounded-xl"
-      name="expiryDate"
-      value={formdata.expiryDate}
-      onChange={handleChange}
-    />
-  </div>
-</div>
+            <div className="flex flex-col">
+              <label className="text-gray-400 mb-1">Expiry Date & Time</label>
+              <input
+                type="date" // allows calendar + time selection
+                className="border border-teal-500 p-2 rounded-xl"
+                name="expiryDate"
+                value={formdata.expiryDate}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
 
 
           {/* Buttons */}
