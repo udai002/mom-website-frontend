@@ -18,13 +18,9 @@ const PrescriptionOrder = () => {
   const [page, setPage] = useState(1);
   const [limit] = useState(6);
   const [totalPages, setTotalPages] = useState(0);
-
-
+  const [selectedRows, setSelectedRows] = useState([]);
   const [filterDate, setFilterDate] = useState("")
   const [originalData, setOriginalData] = useState([])
-
-
-
 
 
   useEffect(() => {
@@ -83,6 +79,38 @@ const PrescriptionOrder = () => {
   };
 
   const columns = [
+     {
+            id: "select",
+            header: (
+                <input
+                    type="checkbox"
+                    className='w-5 h-5 rounded border-2 border-[#00a99d] peer-checked:bg-[#e0f7f5] flex items-center justify-center'
+                    onChange={(e) => {
+                        if (e.target.checked) {
+                            setSelectedRows(data.map((row) => row._id));
+                        } else {
+                            setSelectedRows([]);
+                        }
+                    }}
+                    checked={data.length > 0 && selectedRows.length === data.length}
+                />
+            ),
+            cell: (row) => (
+                <input
+                    type="checkbox"
+                    checked={selectedRows.includes(row._id)}
+                    className='w-5 h-5 rounded border-2 border-[#00a99d] peer-checked:bg-[#e0f7f5] flex items-center justify-center'
+                    onChange={(e) => {
+                        if (e.target.checked) {
+                            setSelectedRows([...selectedRows, row._id]);
+                        } else {
+                            setSelectedRows(selectedRows.filter((id) => id !== row._id));
+                        }
+                    }}
+                />
+            ),
+        },
+
     { id: "name", header: "User Name" },
     { id: "contact", header: "Mobile Number" },
     { id: "age", header: "Age" },

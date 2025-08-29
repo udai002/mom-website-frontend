@@ -17,7 +17,7 @@ function Mangemployee() {
   const [limit] = useState(6);
   const [totalPages, setTotalPages] = useState(0);
   const [totalResponses, setTotalResponses] = useState(0);
-
+   const [selectedRows, setSelectedRows] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editingEmployee, setEditingEmployee] = useState(null);
 
@@ -62,6 +62,32 @@ function Mangemployee() {
     }
   };
 
+    const handleCheckboxDelete = async () => {
+        if (selectedRows.length === 0) {
+            alert("No rows selected");
+            return;
+        }
+
+        const confirmDelete = window.confirm("Are you sure you want to delete the all responses");
+        if (!confirmDelete) return;
+
+        try {
+            await Promise.all(
+                selectedRows.map((id) =>
+                    apiClient(`employee/deleteemployee/${id}`, {
+                        method: 'DELETE',
+                    })
+                )
+            );
+            setData(prevData => prevData.filter(item => !selectedRows.includes(item._id)));
+            setSelectedRows([]);
+            alert("Selected responses deleted successfully.");
+        } catch (error) {
+            console.error("Error deleting selected rows:", error);
+            alert("Failed to delete some or all selected responses.");
+        }
+    };
+
   const handleFormSubmit = (newData) => {
     if (editingEmployee) {
       setData((prev) =>
@@ -86,6 +112,37 @@ function Mangemployee() {
   };
 
   const columns = [
+        {
+            id: "select",
+            header: (
+                <input
+                    type="checkbox"
+                    className='w-5 h-5 rounded border-2 border-[#00a99d] peer-checked:bg-[#e0f7f5] flex items-center justify-center'
+                    onChange={(e) => {
+                        if (e.target.checked) {
+                            setSelectedRows(data.map((row) => row._id));
+                        } else {
+                            setSelectedRows([]);
+                        }
+                    }}
+                    checked={data.length > 0 && selectedRows.length === data.length}
+                />
+            ),
+            cell: (row) => (
+                <input
+                    type="checkbox"
+                    checked={selectedRows.includes(row._id)}
+                    className='w-5 h-5 rounded border-2 border-[#00a99d] peer-checked:bg-[#e0f7f5] flex items-center justify-center'
+                    onChange={(e) => {
+                        if (e.target.checked) {
+                            setSelectedRows([...selectedRows, row._id]);
+                        } else {
+                            setSelectedRows(selectedRows.filter((id) => id !== row._id));
+                        }
+                    }}
+                />
+            ),
+        },
     { id: "employeeId", header: "Employee ID" },
     { id: "employeeName", header: "Employee Name" },
     { id: "employeedesignation", header: "Designation" },
@@ -139,6 +196,7 @@ function Mangemployee() {
         <p>Total {totalResponses} Responses</p>
         <p>No filters applied</p>
         <button
+        onClick={handleCheckboxDelete}
           className="font-200 flex gap-2 bg-white text-[#e71818] border-2 rounded-xl border-[#e71818] py-2 px-3"
         >
           Delete Selections
