@@ -42,6 +42,7 @@ function Mangemployee() {
 
 
   const handleDelete = async (id, key) => {
+    console.log(id)
     if (!window.confirm("Are you sure you want to delete this employee?")) return;
     console.log(id,key)
 

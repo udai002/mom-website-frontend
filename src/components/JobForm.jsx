@@ -3,6 +3,7 @@ import apiClient from "../utils/apliClent";
 import Buttons from "./Buttons";
 import Data from "../assets/date.png";
 import { AnimatePresence, motion } from "framer-motion";
+import Departments from "./departments";
 
 const JobForm = ({ setShowForm, data, setActive, departmentId, setDepartmentId, department }) => {
   // Job type & locations
@@ -25,7 +26,11 @@ const JobForm = ({ setShowForm, data, setActive, departmentId, setDepartmentId, 
     hour12: true,
   });
 
+  const [showModal, setShowModal] = useState(false)
 
+  const handleModel = () => {
+    setShowModal(true)
+  }
 
   // Initial form state
   const [formdata, setFormData] = useState({
@@ -141,19 +146,39 @@ const JobForm = ({ setShowForm, data, setActive, departmentId, setDepartmentId, 
           </div>
 
           {/* Department dropdown */}
-          <select
-            className="border border-teal-500 p-2 w-full rounded-xl mb-4"
-            value={departmentId || ""}
-            onChange={(e) => setDepartmentId(e.target.value)}
-            disabled={!!data} // disable while updating
-          >
-            <option value="">Select Department</option>
-            {department.map((dept) => (
-              <option key={dept.deptId} value={dept.deptId}>
-                {dept.department_name}
-              </option>
-            ))}
-          </select>
+          <div className="flex gap-10 px-4">
+            <div className="">
+              <select
+                className="border border-teal-500 py-2 px-10 rounded-xl mb-4"
+                value={departmentId || ""}
+                onChange={(e) => setDepartmentId(e.target.value)}
+                disabled={!!data} 
+              >
+                <option value="">Select Department</option>
+                {department.map((dept) => (
+                  <option key={dept.deptId} value={dept.deptId}>
+                    {dept.department_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex-1">
+              <button className="bg-teal-500 p-2 w-full text-white rounded-xl text-lg" onClick={handleModel}>Create Department</button>
+              {showModal &&
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                  <div className="bg-white p-4 rounded-lg shadow-lg relative">
+                    <button
+                      className="absolute top-2 right-2 text-gray-600 text-xl"
+                      onClick={() => setShowModal(false)}
+                    >
+                      ✕
+                    </button>
+                    <Departments setShowModal={setShowModal}/>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
 
           {/* Job ID + Name */}
           <div className="flex gap-10 m-5">

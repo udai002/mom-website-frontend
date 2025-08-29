@@ -34,7 +34,7 @@ function Mangemployee() {
         setTotalResponses(response.total || 0);
       })
       .catch((err) => console.error("Error fetching jobs:", err));
-  }, [search, page, limit,data]);
+  }, [search, page, limit]);
 
  const handleDelete = async (deptId, jobId) => {
   console.log(deptId, jobId)
@@ -159,6 +159,7 @@ function Mangemployee() {
       <div className="flex justify-between py-4 px-4">
         <div>
           <p>Manage Jobs</p>
+          
         </div>
         <div className="flex gap-4">
           <Search onChange={handleSearchChange} />
