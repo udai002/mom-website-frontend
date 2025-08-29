@@ -9,7 +9,6 @@ import Button from './filter'
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import apiClient from '../utils/apliClent'
 
-
 const Investors = () => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
@@ -19,9 +18,9 @@ const Investors = () => {
     const [page, setPage] = useState(1);
     const [limit] = useState(6);
     const [totalPages, setTotalPages] = useState(0);
-
     const [filterDate, setFilterDate] = useState("")
     const [originalData, setOriginalData] = useState([])
+  
 
     useEffect(() => {
         async function fetchInvestion() {
@@ -29,19 +28,14 @@ const Investors = () => {
                 const result = await apiClient(`api/invest/investors?search=${search}&page=${page}&limit=${limit}`)
                 console.log("data is not fetching", result)
                 setData(result.investors);
-
                 setOriginalData(result.investors);
-
                 setTotalPages(Math.ceil(result.total / limit));
-                setTotalResponses(result.total);
-
             } catch (error) {
                 console.log("data not fetching", error)
             } finally {
                 setLoading(false)
             }
         }
-
         fetchInvestion();
     }, [search, page, limit])
 
@@ -64,8 +58,6 @@ const Investors = () => {
         })
         setData(filtered)
     }, [filterDate, originalData])
-
-
 
     const columns = [
         { id: 'name', header: 'Investor Name' },
@@ -93,7 +85,6 @@ const Investors = () => {
         },
     ]
 
-
     function handleOnChange(e) {
         setSearch(e.target.value);
         setPage(1);
@@ -111,43 +102,37 @@ const Investors = () => {
         }
     };
 
-
     return (
-        <div> 
+        <div>
             <div className="flex justify-between p-4 items-center flex-wrap">
                 <p className='text-2xl font-medium'>Investors Response</p>
                 <div className='flex gap-3 mt-2 items-center flex-wrap'>
-                <Search  onChange={handleOnChange}/>
-                <div className='flex'>
-                    <input
-                        type="date"
-                        value={filterDate}
-                        onChange={(e) => setFilterDate(e.target.value)}
-                        className="border-2 border-[#00A79B80] rounded-2xl p-2 flex gap-3 text-sm  text-[#00A79B]"
-                    />
+                    <Search onChange={handleOnChange} />
+                    <div className='flex'>
+                        <input
+                            type="date"
+                            value={filterDate}
+                            onChange={(e) => setFilterDate(e.target.value)}
+                            className="border-2 border-[#00A79B80] rounded-2xl p-2 flex gap-3 text-sm  text-[#00A79B]"
+                        />
+                    </div>
+                    <Button />
+                    <ExportPDF elementId="investor" fileName="investors.pdf" />
                 </div>
-               
-                <Button />
-
-                <ExportPDF elementId="investor" fileName="investors.pdf" />
             </div>
-        </div>
 
-            <div className="flex justify-between p-4 items-center flex-wrap">
-
-
-            </div>
             <p className='text-xl px-4 text-gray-600 mb-4 '>Total <span className='text-black'>{data.length}</span> responses</p>
 
             <div id="invest">
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
-
                     <div id="investor">
                         <Table data={data} columns={columns} />
                         <div className="flex justify-center items-center mt-10 gap-4 px-7 flex-row">
-                            <span className="text-lg flex-1 text-[#444444] font-medium sm:text-base md:text-lg sm:text-left"> Page {page} of {totalPages}</span>
+                            <span className="text-lg flex-1 text-[#444444] font-medium sm:text-base md:text-lg sm:text-left">
+                                Page {page} of {totalPages}
+                            </span>
                             <div className="flex gap-2">
                                 <button onClick={handlePrevious} disabled={page === 1} className={`p-2 bg-[#00a99d] rounded-full ${page === 1 ? "opacity-50 cursor-not-allowed" : ""}`} >
                                     <FaArrowLeftLong className="text-2xl text-white" />
@@ -174,8 +159,7 @@ const Investors = () => {
                             <p className="text-gray-700">{showData.description || "No description provided."}</p>
                         </div>
                     </div>
-                )
-                }
+                )}
             </div>
         </div>
     )
