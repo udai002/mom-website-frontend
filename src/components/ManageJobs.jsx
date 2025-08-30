@@ -165,7 +165,7 @@ console.log(".........all dept names",allDept)
     },
     { id: "createdAt", header: "Creation Date" },
     { id: "expiryDate", header: "Expiry Date" },
-    { id: "location", header: "Job Location" },
+   
 
     {
       id: "Location_employment_type",
@@ -179,11 +179,21 @@ console.log(".........all dept names",allDept)
     },
     {
       id: "jobInfo",
-      header: "Job type & exp",
+      header: "Experience",
       cell: (row) => (
         <span>
-          {row.type} ({row.experience})
-        </span>
+  <div
+    className={`text-sm rounded border px-1 py-1 w-28
+      ${row.type === "Early Career" ? "border-teal-500 bg-[#00A79B0D]" : ""}
+      ${row.type === "Women Career" ? "border-pink-500 bg-pink-100" : ""}
+      ${row.type == "Professional" ? "border-[#E26B00] bg-[#E26B000D]" : ""}
+    `}
+  >
+    {row.type}
+  </div>
+  {row.experience}
+</span>
+
       ),
     },
 
