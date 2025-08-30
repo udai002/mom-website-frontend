@@ -6,6 +6,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import Departments from "./departments";
 
 const JobForm = ({ setShowForm, data, setActive, departmentId, setDepartmentId, department }) => {
+
+  console.log("department",department)
+  console.log("departmentjId", department._id)
   // Job type & locations
   const type = ["Women Career", "Early Career", "Professional"];
   const locations = [
@@ -34,7 +37,7 @@ const JobForm = ({ setShowForm, data, setActive, departmentId, setDepartmentId, 
 
   // Initial form state
   const [formdata, setFormData] = useState({
-    jobName: data?.jobName || "",
+    jobName: data?.jobName,
     jobId: data?.jobId || "",
     location: data?.location || "",
     type: data?.type || null,
@@ -156,7 +159,7 @@ const JobForm = ({ setShowForm, data, setActive, departmentId, setDepartmentId, 
               >
                 <option value="">Select Department</option>
                 {department.map((dept) => (
-                  <option key={dept.deptId} value={dept.deptId}>
+                  <option key={dept._id} value={dept._id}>
                     {dept.department_name}
                   </option>
                 ))}
