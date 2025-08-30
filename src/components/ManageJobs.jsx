@@ -12,12 +12,14 @@ import { FaPlus } from "react-icons/fa6";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
 function Mangemployee() {
+  const [allDept, setAllDept]=useState([])
   const [data, setData] = useState([]);
   const [showform, setShowForm] = useState(false);
   const [active, setActive] = useState(null);
   const [search, setSearch] = useState("");
+
   const [page, setPage] = useState(1);
-  const [limit] = useState(4);
+  const [limit] = useState(5);
   const [totalPages, setTotalPages] = useState(0);
   const [totalResponses, setTotalResponses] = useState(0);
   const [selectedDepartmentId, setSelectedDepartmentId] = useState(null);
@@ -36,6 +38,33 @@ function Mangemployee() {
       .catch((err) => console.error("Error fetching jobs:", err));
   }, [search, page, limit]);
 
+function jobs()
+{
+
+
+}
+
+useEffect(()=>
+{
+
+   apiClient(`job/jobs`)
+      .then((res) => {
+        const response = res.data || res;
+        setAllDept(response.department);
+       
+      })
+      .catch((err) => console.error("Error fetching jobs:", err));
+
+
+},[allDept])
+
+
+console.log(".........all dept names",allDept)
+
+
+
+
+  console.log("....manage jobs",data)
  const handleDelete = async (deptId, jobId) => {
   console.log(deptId, jobId)
   try {
@@ -183,15 +212,15 @@ function Mangemployee() {
   ];
 
   const uniqueDepartments = Array.from(
-    new Map(data.map(dept => [dept.deptId, dept])).values()
+    new Map(allDept.map(dept => [dept._id, dept])).values()
   );
-
+console.log("unique",uniqueDepartments)
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
     setPage(1);
   };
 
-  const handlePrevious = () => {
+  const handlePrevious = () => {  
     if (page > 1) setPage(page - 1);
   };
 
@@ -201,6 +230,7 @@ function Mangemployee() {
 
   return (
     <>
+    {/* {allDept.map((item)=><h1>{item.department_name}</h1>)} */}
       {(showform || active) && (
         <>
           <div className="fixed h-screen w-screen bg-black/45 left-0 top-0 "></div>
@@ -208,6 +238,8 @@ function Mangemployee() {
             setShowForm={setShowForm}
             data={active}
             department={uniqueDepartments}
+                        
+
             setActive={setActive}
             departmentId={selectedDepartmentId}
             setDepartmentId={setSelectedDepartmentId}
