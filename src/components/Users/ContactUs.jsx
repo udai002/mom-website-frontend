@@ -15,17 +15,16 @@ function ContactUs() {
     const [showModal, setShowModal] = useState(false);
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
-    const [limit] = useState(10);
+    const [limit] = useState(6);
     const [totalPages, setTotalPages] = useState(0);
-
-
+    const [selectedRows, setSelectedRows] = useState([]);
     const [filterDate, setFilterDate] = useState("");
     const [originalData, setOriginalData] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const result = await apiClient(`contactus/allcontact?search=${search}&page=${page}&limit=${limit}` );
+                const result = await apiClient(`contactus/allcontact?search=${search}&page=${page}&limit=${limit}`);
                 console.log(result);
                 setData(result.contacts);
                 setOriginalData(result.contacts);
@@ -58,7 +57,65 @@ function ContactUs() {
         }
     };
 
+      const handleCheckboxDelete = async () => {
+        if (selectedRows.length === 0) {
+            alert("No rows selected");
+            return;
+        }
+
+        const confirmDelete = window.confirm("Are you sure you want to delete the all responses");
+        if (!confirmDelete) return;
+
+        try {
+            await Promise.all(
+                selectedRows.map((id) =>
+                    apiClient(`contactus/delete/${id}`, {
+                        method: 'DELETE',
+                    })
+                )
+            );
+            setData(prevData => prevData.filter(item => !selectedRows.includes(item._id)));
+            setSelectedRows([]);
+            alert("Selected responses deleted successfully.");
+        } catch (error) {
+            console.error("Error deleting selected rows:", error);
+            alert("Failed to delete some or all selected responses.");
+        }
+    };
+
     const columns = [
+
+        {
+            id: "select",
+            header: (
+                <input
+                    type="checkbox"
+                    className='w-5 h-5 rounded border-2 border-[#00a99d] peer-checked:bg-[#e0f7f5] flex items-center justify-center'
+                    onChange={(e) => {
+                        if (e.target.checked) {
+                            setSelectedRows(data.map((row) => row._id));
+                        } else {
+                            setSelectedRows([]);
+                        }
+                    }}
+                    checked={data.length > 0 && selectedRows.length === data.length}
+                />
+            ),
+            cell: (row) => (
+                <input
+                    type="checkbox"
+                    checked={selectedRows.includes(row._id)}
+                    className='w-5 h-5 rounded border-2 border-[#00a99d] peer-checked:bg-[#e0f7f5] flex items-center justify-center'
+                    onChange={(e) => {
+                        if (e.target.checked) {
+                            setSelectedRows([...selectedRows, row._id]);
+                        } else {
+                            setSelectedRows(selectedRows.filter((id) => id !== row._id));
+                        }
+                    }}
+                />
+            ),
+        },
         { id: "name", header: "User Name" },
         { id: "email", header: "Email ID" },
         { id: "supportType", header: "SupportType" },
@@ -93,6 +150,7 @@ function ContactUs() {
             setData(originalData);
             return;
         }
+
         const filtered = originalData.filter((item) => {
             if (!item.createdAt) return false;
             const created = new Date(item.createdAt);
@@ -101,17 +159,16 @@ function ContactUs() {
                 created.getFullYear() === selected.getFullYear() &&
                 created.getMonth() === selected.getMonth() &&
                 created.getDate() === selected.getDate()
-            );
+            )
         });
+        
         setData(filtered);
     }, [filterDate, originalData]);
-
-
+ 
     function handleOnChange(e) {
         setSearch(e.target.value);
         setPage(1);
-    }
-
+      }
     const handlePrevious = () => {
         if (page > 1) {
             setPage(page - 1);
@@ -159,7 +216,7 @@ function ContactUs() {
                     </h4>
                     <p>No filters applied</p>
                     <button
-                        onClick={() => setShowModal(true)}
+                        onClick={handleCheckboxDelete}
                         className="font-200 flex gap-2 bg-[white] text-[#e71818] border-2 rounded-xl border-[#e71818] py-2 px-3 "
                     >
                         Delete Selections

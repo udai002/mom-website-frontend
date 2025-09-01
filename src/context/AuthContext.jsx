@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import apiClient from "../utils/apliClent";
 import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 
 const AuthContext = createContext({
@@ -9,14 +10,15 @@ const AuthContext = createContext({
     error:false , 
     loginViaEmail:()=>{} , 
     verifyOtp:()=>{} , 
-    logout:()=>{}
+    logout:()=>{},
+    login:false
 })
 
 function AuthProvider({children}){
     const [adminDetails , setAdminDetails] = useState(null)
     const [loading , setLoading] = useState(false)
     const [error , setError] = useState(false)
-    
+    const [login, setLogin]=useState(false)
     const navigate = useNavigate()
     
     useEffect(()=>{
@@ -82,6 +84,9 @@ function AuthProvider({children}){
                 const JSONToken= JSON.stringify(reponse.token)
                 localStorage.setItem("jwt_token" , JSONToken)
                 navigate("/")
+                toast.success("Login Successfull")
+                setLogin(true)
+                console.log("..........login..........",login)
                 return true
             }else{
                 return false
@@ -90,15 +95,18 @@ function AuthProvider({children}){
             return false
         }
     }
-
+console.log(",..........login at AuthContext......",login)
     //logout
     function logout(){
         localStorage.removeItem("jwt_token")
+        setLogin(false)
         navigate("/auth")
+        toast.success("Logout Successfull")
+
         
     }
 
-    return <AuthContext.Provider value={{adminDetails , loginViaEmail , verifyOtp , loading , error , logout}}>
+    return <AuthContext.Provider value={{adminDetails , loginViaEmail , verifyOtp , loading , error , logout,login,setLogin}}>
         {children}
     </AuthContext.Provider>
 }

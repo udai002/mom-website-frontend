@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import toast from "react-hot-toast";
 
 function Editemp({ employee, onClose, onSubmit }) {
   const isEditMode = Boolean(employee);
@@ -73,12 +74,12 @@ function Editemp({ employee, onClose, onSubmit }) {
     try {
       let response;
       if (isEditMode) {
-        response = await fetch(`http://localhost:3000/employee/update/${employee._id}`, {
+        response = await fetch(`http://localhost:3000/employee/update/${employee._id}`,{
           method: "PUT",
           body: form,
         });
       } else {
-        response = await fetch("http://localhost:3000/employee/uploademployee", {
+        response = await fetch("http://localhost:3000/employee/uploademployee",{
           method: "POST",
           body: form,
         });
@@ -93,6 +94,7 @@ function Editemp({ employee, onClose, onSubmit }) {
       onSubmit(result.data || result); 
       console.log("jh",result)
       handleReset();
+      toast.success("Employee Added")
     } catch (error) {
       console.error("Submission error:", error);
     }
@@ -119,7 +121,7 @@ function Editemp({ employee, onClose, onSubmit }) {
             onClick={handlePhotoClick}
             className="px-4 py-2 bg-[#00a99d] text-white rounded-md"
           >
-            {isEditMode && photoPreview ? "Change Photo" : "Upload Photo"}
+            {isEditMode && photoPreview ? "Change Photo" : " Photo"}
           </button>
           <input
             type="file"

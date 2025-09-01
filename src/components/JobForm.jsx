@@ -3,8 +3,12 @@ import apiClient from "../utils/apliClent";
 import Buttons from "./Buttons";
 import Data from "../assets/date.png";
 import { AnimatePresence, motion } from "framer-motion";
+import Departments from "./departments";
 
 const JobForm = ({ setShowForm, data, setActive, departmentId, setDepartmentId, department }) => {
+
+  console.log("department",department)
+  console.log("departmentjId", department._id)
   // Job type & locations
   const type = ["Women Career", "Early Career", "Professional"];
   const locations = [
@@ -25,14 +29,18 @@ const JobForm = ({ setShowForm, data, setActive, departmentId, setDepartmentId, 
     hour12: true,
   });
 
-  
+  const [showModal, setShowModal] = useState(false)
+
+  const handleModel = () => {
+    setShowModal(true)
+  }
 
   // Initial form state
   const [formdata, setFormData] = useState({
-    jobName: data?.jobName || "",
+    jobName: data?.jobName,
     jobId: data?.jobId || "",
     location: data?.location || "",
-    type: data?.type || "",
+    type: data?.type || null,
     skills: data?.skills || "",
     jobDescription: data?.jobDescription || "",
     experience: data?.experience || "",
@@ -141,19 +149,39 @@ const JobForm = ({ setShowForm, data, setActive, departmentId, setDepartmentId, 
           </div>
 
           {/* Department dropdown */}
-          <select
-            className="border border-teal-500 p-2 w-full rounded-xl mb-4"
-            value={departmentId || ""}
-            onChange={(e) => setDepartmentId(e.target.value)}
-            disabled={!!data} // disable while updating
-          >
-            <option value="">Select Department</option>
-            {department.map((dept) => (
-              <option key={dept.deptId} value={dept.deptId}>
-                {dept.department_name}
-              </option>
-            ))}
-          </select>
+          <div className="flex gap-10 px-4">
+            <div className="">
+              <select
+                className="border border-teal-500 py-2 px-10 rounded-xl mb-4"
+                value={departmentId || ""}
+                onChange={(e) => setDepartmentId(e.target.value)}
+                disabled={!!data} 
+              >
+                <option value="">Select Department</option>
+                {department.map((dept) => (
+                  <option key={dept._id} value={dept._id}>
+                    {dept.department_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex-1">
+              <button className="bg-teal-500 p-2 w-full text-white rounded-xl text-lg" onClick={handleModel}>Create Department</button>
+              {showModal &&
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                  <div className="bg-white p-4 rounded-lg shadow-lg relative">
+                    <button
+                      className="absolute top-2 right-2 text-gray-600 text-xl"
+                      onClick={() => setShowModal(false)}
+                    >
+                      ✕
+                    </button>
+                    <Departments setShowModal={setShowModal}/>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
 
           {/* Job ID + Name */}
           <div className="flex gap-10 m-5">
@@ -190,6 +218,7 @@ const JobForm = ({ setShowForm, data, setActive, departmentId, setDepartmentId, 
                 </option>
               ))}
             </select>
+
             <select
               className="border border-teal-500 p-2 w-[33vh] rounded-xl"
               name="location"
@@ -232,26 +261,26 @@ const JobForm = ({ setShowForm, data, setActive, departmentId, setDepartmentId, 
             />
           </div>
 
-        {/* Dates */}
-<div className="flex justify-between items-center mt-5">
-  <div>
-    <p className="text-gray-400">Creation Date & Time</p>
-    <h1 className="text-black">
-      {date.toDateString()} | {newdate}
-    </h1>
-  </div>
+          {/* Dates */}
+          <div className="flex justify-between items-center mt-5">
+            <div>
+              <p className="text-gray-400">Creation Date & Time</p>
+              <h1 className="text-black">
+                {date.toDateString()} | {newdate}
+              </h1>
+            </div>
 
-  <div className="flex flex-col">
-    <label className="text-gray-400 mb-1">Expiry Date & Time</label>
-    <input
-      type="date" // allows calendar + time selection
-      className="border border-teal-500 p-2 rounded-xl"
-      name="expiryDate"
-      value={formdata.expiryDate}
-      onChange={handleChange}
-    />
-  </div>
-</div>
+            <div className="flex flex-col">
+              <label className="text-gray-400 mb-1">Expiry Date & Time</label>
+              <input
+                type="date" // allows calendar + time selection
+                className="border border-teal-500 p-2 rounded-xl"
+                name="expiryDate"
+                value={formdata.expiryDate}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
 
 
           {/* Buttons */}
