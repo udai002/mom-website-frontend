@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import apiClient from '../utils/apliClent';
+import toast from 'react-hot-toast';
 
 const Departments = ({setShowModal}) => {
     const [formData, setFormData] = useState({
@@ -28,7 +29,8 @@ const Departments = ({setShowModal}) => {
             )
 
             if(response){
-                alert("job updated succesfully")
+                // alert("job updated succesfully")
+                toast.success("Job updated succesfully")
                 setShowModal(false)
             }
             

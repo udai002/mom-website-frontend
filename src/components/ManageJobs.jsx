@@ -10,6 +10,7 @@ import JobForm from "./JobForm";
 import apiClient from "../utils/apliClent";
 import { FaPlus } from "react-icons/fa6";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import toast from "react-hot-toast";
 
 function Mangemployee() {
   const [allDept, setAllDept]=useState([])
@@ -75,7 +76,8 @@ console.log(".........all dept names",allDept)
     });
 
     if (res.status === 200) {
-      alert("Job deleted successfully");
+      // alert("Job deleted successfully");
+      toast.success("Job deleted successfully")
       setData((prev) => prev.filter((job) => job._id !== jobId));
       setTotalResponses(prev => prev - 1);
     } else {
@@ -165,7 +167,7 @@ console.log(".........all dept names",allDept)
     },
     { id: "createdAt", header: "Creation Date" },
     { id: "expiryDate", header: "Expiry Date" },
-   
+    { id: "location", header: "Job Location" },
 
     {
       id: "Location_employment_type",
@@ -179,21 +181,11 @@ console.log(".........all dept names",allDept)
     },
     {
       id: "jobInfo",
-      header: "Experience",
+      header: "Job type & exp",
       cell: (row) => (
         <span>
-  <div
-    className={`text-sm rounded border px-1 py-1 w-28
-      ${row.type === "Early Career" ? "border-teal-500 bg-[#00A79B0D]" : ""}
-      ${row.type === "Women Career" ? "border-pink-500 bg-pink-100" : ""}
-      ${row.type == "Professional" ? "border-[#E26B00] bg-[#E26B000D]" : ""}
-    `}
-  >
-    {row.type}
-  </div>
-  {row.experience}
-</span>
-
+          {row.type} ({row.experience})
+        </span>
       ),
     },
 

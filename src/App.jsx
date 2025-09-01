@@ -11,6 +11,8 @@ import Mangemployee from './components/ManageJobs'
 import ManageJobs from "./pages/Jobs"
 import { useEffect } from 'react'
 import useAdmin from './context/AuthContext'
+import { Loader } from "lucide-react";
+
 import ProtectedRoute from './components/Navigation/ProtectedRoute'
 
 const nonNavbarPages = [
@@ -20,13 +22,26 @@ const nonNavbarPages = [
 import Edit from "./components/Users/Editemp"
 
 import TopComponent from "./components/TopComponent"
+import { Toaster } from 'react-hot-toast'
 
 
 
 function App() {
+    const {adminDetails,login,loading} = useAdmin()
+
   const location = useLocation()
   const pathLocatoin = location.pathname
   
+console.log("...............admin details ...........",adminDetails)
+console.log("...............login in app js  ...........",login)
+
+  // if (loading) {
+  //   return (
+  //     <div className="flex items-center justify-center h-screen">
+  //       <Loader className="size-10 animate-spin" />
+  //     </div>
+  //   );
+  // }
 
   
   return (
@@ -36,7 +51,8 @@ function App() {
         <div className='flex w-full h-[100vh] jusity-center align-center border-box p-2'>
           {!nonNavbarPages.includes(pathLocatoin) &&<Sidenavbar className="flex-shrink" />}
           <div className='flex-1 -ml-5'>
-            <TopComponent />
+            
+            {login==true?<TopComponent />:""}
             <Routes >
               <Route path="/auth" element={<Authentication />} />
               <Route element={<ProtectedRoute/>} >
@@ -52,6 +68,8 @@ function App() {
           </div>
         </div>
       </NavBarContext>
+      <Toaster></Toaster>
+  
     </>
   )
 }
