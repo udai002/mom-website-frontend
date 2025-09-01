@@ -5,6 +5,7 @@ import LoginBtn from './LoginBtn';
 import RequestOTP from './RequestOTP';
 import useAdmin from '../../context/AuthContext';
 import { useNavigate } from 'react-router';
+import { Loader } from "lucide-react";
 
 const AuthenticationForm = () => {
     const [email , setEmail ] = useState("")
@@ -31,7 +32,13 @@ const AuthenticationForm = () => {
             setOtpSent(true)
         }
     }
-
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader className="size-10 animate-spin" />
+      </div>
+    );
+  }
 
 
   return (

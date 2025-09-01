@@ -9,6 +9,7 @@ import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import Editemp from "./Users/Editemp";
 import { useNavigate } from "react-router";
 import apiClient from "../utils/apliClent";
+import toast from "react-hot-toast";
 
 function Mangemployee() {
   const [data, setData] = useState([]);
@@ -53,7 +54,8 @@ function Mangemployee() {
       const result = await res.json();
       if (result) {
         setData((prev) => prev.filter((emp) => emp._id !== id));
-        alert("Deleted successfully");
+        // alert("Deleted successfully");
+        toast.success("Deleted successfully")
       } else {
         alert("Failed to delete");
       }
@@ -187,7 +189,9 @@ function Mangemployee() {
             onClick={handleAdd}
             className="font-200 bg-[#00A79B] text-white border-2 rounded-xl border-[#00A79B] py-2 px-3"
           >
+
             Add Employee +
+
           </button>
         </div>
       </div>
