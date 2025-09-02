@@ -16,13 +16,16 @@ import { Loader } from "lucide-react";
 import ProtectedRoute from './components/Navigation/ProtectedRoute'
 
 const nonNavbarPages = [
-  "/auth"
+  "/auth",
+  "/employe-details"
 ]
 
 import Edit from "./components/Users/Editemp"
 
 import TopComponent from "./components/TopComponent"
 import { Toaster } from 'react-hot-toast'
+import AdminPortal from './pages/EmployeeEngagment'
+import EmployeDetails from './pages/EmployeDetails'
 
 
 
@@ -31,6 +34,7 @@ function App() {
 
   const location = useLocation()
   const pathLocatoin = location.pathname
+  console.log("this isi current location" , pathLocatoin.split("/")[1])
   
 console.log("...............admin details ...........",adminDetails)
 console.log("...............login in app js  ...........",login)
@@ -49,7 +53,7 @@ console.log("...............login in app js  ...........",login)
           <NavBarContext>
 
         <div className='flex w-full h-[100vh] jusity-center align-center border-box p-2'>
-          {!nonNavbarPages.includes(pathLocatoin) &&<Sidenavbar className="flex-shrink" />}
+          {!nonNavbarPages.includes(`/${pathLocatoin.split("/")[1]}`) &&<Sidenavbar className="flex-shrink" />}
           <div className='flex-1 -ml-5'>
             
             {login==true?<TopComponent />:""}
@@ -63,6 +67,8 @@ console.log("...............login in app js  ...........",login)
               <Route path="/employee" element={<Employee />} />
               <Route path="/prescription" element={<Prescription />} />
               <Route path="/edit" element={<Edit/>} />
+              <Route path="/employeeEngagment" element={<AdminPortal/>} />
+              <Route path="/employe-details/:id" element={<EmployeDetails/>} />
             </Route>
             </Routes>
           </div>

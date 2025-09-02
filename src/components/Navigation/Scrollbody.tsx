@@ -1,3 +1,6 @@
+import { PiMicrosoftTeamsLogoBold } from "react-icons/pi";
+
+
 import Button from "./Button";
 import SvgIcon from "../SvgIcons/svgicon"
 import Job from "../SvgIcons/Job"
@@ -37,13 +40,19 @@ const OptionsList = [
     icon: <SvgIcon className="h-6 w-6"/>,
     link: "/employee",
   },
+  {
+    id:6 , 
+    title:"Employee Engagment",
+    icon:<PiMicrosoftTeamsLogoBold className="h-6 w-6"/> , 
+    link:"/employeeEngagment"
+  }
   
 ];
 
 function Scrollbody() {
   return (
     <>
-      <div className="overflow-y-auto  h-[60%] overflew-scrollbar-hide mt-2  p-2 w-72  ">
+      <div className="overflow-y-auto h-[70%] overflew-scrollbar-hide mt-2 md:p-4  w-72  ">
         {OptionsList.map((item) =><Button className="" link={item.link}  icon={item.icon} title={item.title} options={item.options} />)}
       </div>
     </>
