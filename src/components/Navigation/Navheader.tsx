@@ -10,7 +10,7 @@ export const Navheader = () => {
   return (
     <div className="relative border-b flex items-center justify-between p-2">
     
-      <div className="flex items-center gap-3 -ml-2">
+      <div className="flex items-center gap-3 ml-1">
         <h1 className="text-[#00a99d] bg-white rounded-[15px] px-3 py-1 text-[25px] font-semibold text-center">
           m
         </h1>
