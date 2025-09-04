@@ -15,8 +15,8 @@ function Sidenavbar() {
   return (
     <div className="flex flex-row h-screen w-auto">
       <div
-        className={`bg-[#00a99d] p-2 pt-4 rounded-[20px] transition-all duration-300 ease-in-out
-        ${open ? "w-72" : "w-16"} overflow-hidden`}
+        className={`bg-[#00a99d]  pt-4 rounded-[20px] transition-all duration-300 ease-in-out
+        ${open ? "w-72 p-4" : "w-16"} overflow-hidden`}
       >
         <Navheader />
         <Scrollbody />
