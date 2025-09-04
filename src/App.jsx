@@ -26,6 +26,7 @@ import TopComponent from "./components/TopComponent"
 import { Toaster } from 'react-hot-toast'
 import AdminPortal from './pages/EmployeeEngagment'
 import EmployeDetails from './pages/EmployeDetails'
+import Leaves from './pages/Leaves'
 
 
 
@@ -69,6 +70,8 @@ console.log("...............login in app js  ...........",login)
               <Route path="/edit" element={<Edit/>} />
               <Route path="/employeeEngagment" element={<AdminPortal/>} />
               <Route path="/employe-details/:id" element={<EmployeDetails/>} />
+              <Route path="/leaves" element={<Leaves></Leaves>} />
+              
             </Route>
             </Routes>
           </div>
