@@ -186,14 +186,14 @@ function LeavesApply() {
     },
     { id: "leaveType", header: "Leave Type" },
     { id: "reason", header: "Reason" },
-    // { id: "employeeId", header: "Emp_Id" },
-    // { id: "name", header: "Name" },
-    // { id: "_id", header: "Leave Id" },
-    // { id: "from", header: "From" },
-    // { id: "to", header: "To" },
-    // { id: "status", header: "Status" },
-    // { id: "Aboutemployee", header: "Approved By" },
-    // { id: "Aboutemployee", header: "Approved At" },
+    { id: "employeeId", header: "Emp_Id" },
+    { id: "name", header: "Name" },
+    { id: "_id", header: "Leave Id" },
+    { id: "from", header: "From" },
+    { id: "to", header: "To" },
+    { id: "status", header: "Status" },
+    { id: "Aboutemployee", header: "Approved By" },
+    { id: "Aboutemployee", header: "Approved At" },
       {
            id: "actions",
            header: "Actions",
@@ -247,7 +247,7 @@ function LeavesApply() {
         name="leavstatus"
         className="border-2 rounded-lg p-2 border-[#00A99D] text-">
             <option value="">Leave status</option>
-            <option value="Pending" className="text-orange-500" onClick={setColor(orannge-500)}>Pending</option>
+            <option value="Pending" className="text-orange-500" >Pending</option>
             <option value="Approved" className="text-green-600">Approved</option>
             <option value="Cancle" className="text-red-600">Cancle</option>
             
