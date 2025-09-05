@@ -5,12 +5,12 @@ const Table = ({ data, columns, emptyMessage = "No data available." }) => {
     
 
     return (
-        <div className=" w-full justify-center align-center">
+        <div className=" w-full justify-center align-center overflow-y-auto h-[70vh] pt-4">
                 
         <div className='flex w-full justify-center align-center'>
             
-            <table className='w-[100%] border-collapse'>
-                <thead>
+            <table className='w-[100%] border-collapse overflow-auto sticky'>
+                <thead> 
                     <tr className=''>
 
                         {columns.map((col) => (

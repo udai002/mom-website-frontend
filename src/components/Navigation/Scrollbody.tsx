@@ -1,4 +1,5 @@
 import { PiMicrosoftTeamsLogoBold } from "react-icons/pi";
+import { AiOutlineFileDone } from "react-icons/ai";
 
 
 import Button from "./Button";
@@ -45,6 +46,12 @@ const OptionsList = [
     title:"Employee Engagment",
     icon:<PiMicrosoftTeamsLogoBold className="h-6 w-6"/> , 
     link:"/employeeEngagment"
+  },
+    {
+    id:7 , 
+    title:"Employee Leaves",
+    icon:<AiOutlineFileDone  className="h-6 w-6"/> , 
+    link:"/leaves"
   }
   
 ];
