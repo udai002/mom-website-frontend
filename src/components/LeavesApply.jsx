@@ -24,6 +24,7 @@ function LeavesApply() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editingEmployee, setEditingEmployee] = useState(null);
+  const[colorstate , setColor]=useState("")
 
   const navigate = useNavigate();
     //   `employee/allemployees?search=${search}&page=${page}&limit=${limit}`
@@ -50,21 +51,21 @@ function LeavesApply() {
     if (!window.confirm("Are you sure you want to Approve leave for this employee?"))
       return;
     console.log(id, key);
-
+// http://localhost:3000/api/leave/approve/68b842634ccee244e2a18e34
     try {
-      const res = await apiClient(`employee/deleteemployee/${id}`, {
-        method: "DELETE",
+      const res = await apiClient(`api/leave/approve/${id}`, {
+        method: "PUT",
       });
       const result = await res.json();
       if (result) {
         setData((prev) => prev.filter((emp) => emp._id !== id));
         // alert("Deleted successfully");
-        toast.success("Deleted successfully");
+        toast.success("Approved successfully");
       } else {
-        alert("Failed to delete");
+        alert("Failed to Approve");
       }
     } catch (err) {
-      console.error("Error deleting employee:", err);
+      console.error("Error Approving employee leave:", err);
     }
   };
 
@@ -116,10 +117,28 @@ function LeavesApply() {
     setShowModal(true);
   };
 
-  function handleRemove()
+  async function handleRemove(id,key)
   {
        if (!window.confirm("Are you sure you want to cancel?"))
         return
+
+       console.log("id n key",id,key)
+
+        try {
+      const res = await apiClient(`api/leave/cancel/${id}`, {
+        method: "PUT",
+      });
+      const result = await res.json();
+      if (result) {
+        setData((prev) => prev.filter((emp) => emp._id !== id));
+        // alert("Deleted successfully");
+        toast.success("Cancele successfully");
+      } else {
+        alert("Failed to Cancel");
+      }
+    } catch (err) {
+      console.error("Error cancel employee leave:", err);
+    }
   }
 
   const handleAdd = () => {
@@ -167,14 +186,14 @@ function LeavesApply() {
     },
     { id: "leaveType", header: "Leave Type" },
     { id: "reason", header: "Reason" },
-    { id: "employeeId", header: "Emp_Id" },
-    { id: "name", header: "Name" },
-    { id: "_id", header: "Leave Id" },
-    { id: "from", header: "From" },
-    { id: "to", header: "To" },
-    { id: "status", header: "Status" },
-    { id: "Aboutemployee", header: "Approved By" },
-    { id: "Aboutemployee", header: "Approved At" },
+    // { id: "employeeId", header: "Emp_Id" },
+    // { id: "name", header: "Name" },
+    // { id: "_id", header: "Leave Id" },
+    // { id: "from", header: "From" },
+    // { id: "to", header: "To" },
+    // { id: "status", header: "Status" },
+    // { id: "Aboutemployee", header: "Approved By" },
+    // { id: "Aboutemployee", header: "Approved At" },
       {
            id: "actions",
            header: "Actions",
@@ -185,7 +204,7 @@ function LeavesApply() {
 
                  {/* <img src={Delete} className="w-5 h-6" /> */}
                </button>
-               <button onClick={() => handleRemove(row)}>
+               <button onClick={() => handleRemove(row._id,row.Key)}>
                 <MdCancel className="w-6 h-6 text-red-600"></MdCancel>
 
                  {/* <img src={Book} alt="Edit" className="w-7 h-7" /> */}
@@ -210,6 +229,14 @@ function LeavesApply() {
     if (page < totalPages) setPage(page + 1);
   };
 
+
+  // function Color(col)
+  // {
+  //   setColor(col)
+
+
+  // }
+
   return (
     <>
       <div className="flex justify-between p-4">
@@ -220,7 +247,7 @@ function LeavesApply() {
         name="leavstatus"
         className="border-2 rounded-lg p-2 border-[#00A99D] text-">
             <option value="">Leave status</option>
-            <option value="Pending" className="text-orange-500">Pending</option>
+            <option value="Pending" className="text-orange-500" onClick={setColor(orannge-500)}>Pending</option>
             <option value="Approved" className="text-green-600">Approved</option>
             <option value="Cancle" className="text-red-600">Cancle</option>
             
