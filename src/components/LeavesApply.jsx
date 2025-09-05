@@ -12,6 +12,7 @@ import apiClient from "../utils/apliClent";
 import toast from "react-hot-toast";
 import { FcApproval } from "react-icons/fc";
 import { MdCancel } from "react-icons/md";
+
 import { body } from "framer-motion/client";
 
 const statusColors  = {
@@ -19,6 +20,9 @@ const statusColors  = {
   Approved:"#A8F583" , 
   Cancelled:"#F08080"
 }
+
+import { em } from "framer-motion/m";
+
 
 
 function LeavesApply() {
@@ -55,24 +59,29 @@ function LeavesApply() {
     fetchEmployees();
   }, [search, page, limit , renderer ]);
 
-  const handleAproved = async (id, key,email) => {
-    console.log("email....",id,email);
+  const handleAproved = async (id,email,from,to,name) => {
+    console.log(id,email);
     if (!window.confirm("Are you sure you want to Approve leave for this employee?"))
       return;
-    console.log(id, key);
-
+    console.log(id);
 // http://localhost:3000/api/leave/approve/68b842634ccee244e2a18e34
     try {
       const res = await apiClient(`api/leave/approve/${id}`, {
         method: "PUT",
         headers:{
-          "Content-Type":"application/json"
+
+          'content-type':"application/json"
         },
-        body:JSON.stringify({email})
+        body:JSON.stringify({email,from,to,name})
       });
-      // const result = await res.json();
+      console.log("this is the response from the put method",res);
+      
+      const result = await res.json();
       if (result) {
-        // setData((prev) => prev.filter((emp) => emp._id !== id));
+        console.log(".............results ",result)
+        setData((prev) => prev.filter((emp) => emp._id !== id));
+
+
         // alert("Deleted successfully");
         toast.success("Approved successfully");
         console.log("this is approved leave" , data)
@@ -135,18 +144,22 @@ function LeavesApply() {
     setShowModal(true);
   };
 
-  async function handleRemove(id,key)
+  async function handleRemove(id,email,from,to,name)
   {
        if (!window.confirm("Are you sure you want to cancel?"))
         return
                       setDisabled(true)
 
 
-       console.log("id n key",id,key)
+       console.log("id n key",id)
 
         try {
       const res = await apiClient(`api/leave/cancel/${id}`, {
         method: "PUT",
+        headers:{
+          'content-type':'application/json'
+        },
+        body:JSON.stringify({email,from,to,name})
       });
       const result = await res.json();
       if (result) {
@@ -217,6 +230,7 @@ function LeavesApply() {
     // { id: "_id", header: "Leave Id" },
     { id: "from", header: "From" },
     { id: "to", header: "To" },
+
     { id: "status", header: "Status"  , 
       cell:(row)=><p style={{
         backgroundColor:statusColors[row.status] , 
@@ -228,25 +242,21 @@ function LeavesApply() {
       }}>{row.status}</p>
 
     },
-    // {id:"email" ,header:"Email"},
-    // { id: "Aboutemployee", header: "Approved By" },
-    // { id: "Aboutemployee", header: "Approved At" },
+    { id: "Aboutemployee", header: "Approved By" },
+    { id: "Aboutemployee", header: "Approved At" },
+    // {id:"email",header:"Email"},
       {
            id: "actions",
            header: "Actions",
-           cell: (row) => {
-            
-            const isDisabled = row.status==="Approved" || row.status==="Cancelled"
-            
-            return(
-             <div className="flex gap-5">
-               <button disabled={isDisabled} onClick={() => handleAproved(row._id, row.Key,row.email)} > 
-                <FcApproval className={`w-6 h-6 ${isDisabled && "text-green-200 opacity-25"}`} />
+           cell: (row) => (
+             <div className="flex gap-5 ml-2">
+               <button onClick={() => handleAproved(row._id,row.email,row.from,row.to,row.name)}>
+                <FcApproval className="w-6 h-6" />
 
                  {/* <img src={Delete} className="w-5 h-6" /> */}
                </button>
-               <button disabled={isDisabled} onClick={() => handleRemove(row._id,row.Key)} >
-                <MdCancel className={`w-6 h-6 ${isDisabled?"text-red-300" :"text-red-600"} `}></MdCancel>
+               <button onClick={() => handleRemove(row._id,row.email,row.from,row.to,row.name)}>
+                <MdCancel className="w-6 h-6 text-red-600"></MdCancel>
 
                  {/* <img src={Book} alt="Edit" className="w-7 h-7" /> */}
                </button>
