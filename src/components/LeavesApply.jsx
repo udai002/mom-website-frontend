@@ -29,7 +29,7 @@ function LeavesApply() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [limit] = useState(10);
+  const [limit] = useState(5);
   const [totalPages, setTotalPages] = useState(0);
   const [totalResponses, setTotalResponses] = useState(0);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -39,6 +39,7 @@ function LeavesApply() {
   const[disabled,setDisabled]=useState(false)
   const [renderer, setRenderer] = useState('')
   const[status, setStatus]=useState('')
+  const[statusDtata  , setStatusData]=useState([])
 
   const navigate = useNavigate();
     //   `employee/allemployees?search=${search}&page=${page}&limit=${limit}`
@@ -59,13 +60,13 @@ function LeavesApply() {
   useEffect(() => {
     fetchEmployees();
 
-  }, [search, page, limit , renderer ]);
+  }, [ ]);
 
 
   useEffect(()=>
   {
     try{
-      apiClient(`api/status?status=${status}`)
+      apiClient(`api/status?status=${status}&page=${page}&limit=${limit}`)
       .then((data)=>{
         setData(data.data)
         
@@ -76,7 +77,7 @@ function LeavesApply() {
       
     }
 
-  },[status])
+  },[status,page,limit])
 
   const handleAproved = async (id,email,from,to,name) => {
     console.log(id,email);
@@ -308,7 +309,6 @@ function LeavesApply() {
 
       <div className="flex justify-between px-5 py-1">
         <p>Total {totalResponses} Responses</p>
-        <p>No filters applied</p>
      
         {/* <button
           onClick={handleCheckboxDelete}
@@ -343,6 +343,7 @@ function LeavesApply() {
             }`}
           >
             <FaArrowRightLong className="text-2xl text-white" />
+
           </button>
         </div>
       </div>
