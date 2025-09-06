@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import Table from "./Table";
 import Delete from "../assets/Employee/Delete.png";
 import Book from "../assets/Employee/Book.png";
+import { FaEye } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
+import {ColorRing} from 'react-loader-spinner'
 
 import Search from "./Search";
 import ExportPDF from "./pdf";
@@ -12,17 +15,14 @@ import apiClient from "../utils/apliClent";
 import toast from "react-hot-toast";
 import { FcApproval } from "react-icons/fc";
 import { MdCancel } from "react-icons/md";
-
 import { body } from "framer-motion/client";
+import DateFormater from "../utils/DateFormatter";
 
 const statusColors  = {
   Pending:'#F5C983' , 
   Approved:"#A8F583" , 
   Cancelled:"#F08080"
 }
-
-import { em } from "framer-motion/m";
-
 
 
 function LeavesApply() {
@@ -38,11 +38,19 @@ function LeavesApply() {
   const[colorstate , setColor]=useState("")
   const[disabled,setDisabled]=useState(false)
   const [renderer, setRenderer] = useState('')
+
+  const [leaveReason , setLeaveReason] = useState({
+    name:"",
+    reason:""
+  })
+  const [activeLeaveId , setActiveLeaveId] = useState(null)
+
   const[status, setStatus]=useState('')
   const[statusDtata  , setStatusData]=useState([])
 
+
   const navigate = useNavigate();
-    //   `employee/allemployees?search=${search}&page=${page}&limit=${limit}`
+    //   employee/allemployees?search=${search}&page=${page}&limit=${limit}
 
   const fetchEmployees = () => {
     apiClient(`api/leaves?search=${search}&page=${page}&limit=${limit}`)
@@ -63,6 +71,7 @@ function LeavesApply() {
   }, [ ]);
 
 
+
   useEffect(()=>
   {
     try{
@@ -81,27 +90,25 @@ function LeavesApply() {
 
   const handleAproved = async (id,email,from,to,name) => {
     console.log(id,email);
+
     if (!window.confirm("Are you sure you want to Approve leave for this employee?"))
       return;
     console.log(id);
+
 // http://localhost:3000/api/leave/approve/68b842634ccee244e2a18e34
     try {
+      setActiveLeaveId(id)
       const res = await apiClient(`api/leave/approve/${id}`, {
         method: "PUT",
         headers:{
-
-          'content-type':"application/json"
+          "Content-Type":"application/json"
         },
-        body:JSON.stringify({email,from,to,name})
+        body:JSON.stringify({email,name,from,to})
       });
-      console.log("this is the response from the put method",res);
-      
-      const result = await res.json();
-      if (result) {
-        console.log(".............results ",result)
-        setData((prev) => prev.filter((emp) => emp._id !== id));
-
-
+      setActiveLeaveId(null)
+      // const result = await res.json();
+      if (res) {
+        // setData((prev) => prev.filter((emp) => emp._id !== id));
         // alert("Deleted successfully");
         toast.success("Approved successfully");
         console.log("this is approved leave" , data)
@@ -164,7 +171,7 @@ function LeavesApply() {
     setShowModal(true);
   };
 
-  async function handleRemove(id,email,from,to,name)
+  async function handleRemove(id,email,name,from,to)
   {
        if (!window.confirm("Are you sure you want to cancel?"))
         return
@@ -172,7 +179,7 @@ function LeavesApply() {
 
 
        console.log("id n key",id)
-
+      setActiveLeaveId(id)
         try {
       const res = await apiClient(`api/leave/cancel/${id}`, {
         method: "PUT",
@@ -181,11 +188,14 @@ function LeavesApply() {
         },
         body:JSON.stringify({email,from,to,name})
       });
-      const result = await res.json();
-      if (result) {
+     setActiveLeaveId(null)
+      // const result = await res.json();
+      if (res) {
         
-        setData((prev) => prev.filter((emp) => emp._id !== id));
+        // setData((prev) => prev.filter((emp) => emp._id !== id));
         // alert("Deleted successfully");
+        console.log(data)
+        setData((prev)=>prev.map(item=>item._id===id?{...item , status:"Cancelled"}:item))
         setRenderer(Date.now())
         toast.success("Cancele successfully");
 
@@ -211,17 +221,16 @@ function LeavesApply() {
   }
 
   const columns = [
-   
     { id: "leaveType", header: "Leave Type" },
-    { id: "reason", header: "Reason",
-      cell:(row)=><p>{row.reason.slice(0 , 16)}...</p>
-     },
     // { id: "employeeId", header: "Emp_Id" },
     { id: "name", header: "Name" },
     // { id: "_id", header: "Leave Id" },
-    { id: "from", header: "From" },
-    { id: "to", header: "To" },
-
+    { id: "from", header: "From" , 
+      cell:(row)=><p>{DateFormater(row.from)}</p>
+     },
+    { id: "to", header: "To" , 
+      cell:(row)=><p>{DateFormater(row.to)}</p>
+    },
     { id: "status", header: "Status"  , 
       cell:(row)=><p style={{
         backgroundColor:statusColors[row.status] , 
@@ -233,27 +242,40 @@ function LeavesApply() {
       }}>{row.status}</p>
 
     },
-    // { id: "Aboutemployee", header: "Approved By" },
-    // { id: "Aboutemployee", header: "Approved At" },
-    // {id:"email",header:"Email"},
+
       {
            id: "actions",
            header: "Actions",
-           cell: (row) => (
-             <div className="flex gap-5 ml-2">
-               <button onClick={() => handleAproved(row._id,row.email,row.from,row.to,row.name)}>
-                <FcApproval className="w-6 h-6" />
+           cell: (row) => {
+            
+            const isDisabled = row.status==="Approved" || row.status==="Cancelled"
+            
+            return(
+              <>
+              {activeLeaveId===row._id?<ColorRing height={20} width={20} colors={["#A009ad"]} />:<div className="flex gap-5">
+               <button disabled={isDisabled} onClick={() => handleAproved(row._id,row.email,row.from,row.name,row.to)} > 
+                <FcApproval className={`w-6 h-6 ${isDisabled && "text-green-200 opacity-25"}`} />
 
                  {/* <img src={Delete} className="w-5 h-6" /> */}
                </button>
-               <button onClick={() => handleRemove(row._id,row.email,row.from,row.to,row.name)}>
-                <MdCancel className="w-6 h-6 text-red-600"></MdCancel>
+               <button disabled={isDisabled} onClick={() => handleRemove(row._id,row.email,row.from,row.name,row.to)} >
+                <MdCancel className={`w-6 h-6 ${isDisabled?"text-red-300" :"text-red-600"} `}></MdCancel>
 
                  {/* <img src={Book} alt="Edit" className="w-7 h-7" /> */}
                </button>
-             </div>
+             </div>}
+             
+             </>
            )},
-         ,
+         },
+         {
+          id:"View",
+          header:"View",
+          cell:(row)=><button onClick={()=>{setLeaveReason({name:row.name , reason:row.reason})}}>
+            <FaEye />
+          </button>
+         }
+
 
    
   ];
@@ -282,6 +304,17 @@ function LeavesApply() {
 
   return (
     <>
+   {leaveReason.name && leaveReason.reason && <div className="h-screen w-screen fixed top-0 left-0 bg-black/45 z-10 flex justify-center items-center rounded-xl">
+    <div className=" p-4 bg-white flex flex-col ">
+      <button className="self-end absolute mt-1" onClick={()=>{
+        setLeaveReason({name:"" , reason:""})
+      }}>
+        <IoClose/>
+      </button>
+      <h1 className="font-bold mr-10">Leave Reason for {leaveReason.name}</h1>
+      <p>{leaveReason.reason}</p>
+    </div>
+    </div>} 
       <div className="flex justify-between p-4">
         <p className="text-2xl">Manage Employee</p>
         <div className="flex gap-3 mt-2 items-center flex-wrap">
@@ -297,26 +330,13 @@ function LeavesApply() {
 
         </select>
           <Search onChange={handleSearchChange} />
-          {/* <ExportPDF elementId="employee" fileName="employees.pdf" /> */}
-          {/* <button
-            onClick={handleAdd}
-            className="font-200 bg-[#00A79B] text-white border-2 rounded-xl border-[#00A79B] py-2 px-3"
-          >
-            Add Employee +
-          </button> */}
+     
         </div>
       </div>
 
       <div className="flex justify-between px-5 py-1">
         <p>Total {totalResponses} Responses</p>
-     
-        {/* <button
-          onClick={handleCheckboxDelete}
-          className="font-200 flex gap-2 bg-white text-[#e71818] border-2 rounded-xl border-[#e71818] py-2 px-3"
-        >
-          Delete Selections
-          <img src={Delete} alt="delete" className="w-5 h-5" />
-        </button> */}
+
       </div>
 
       <Table data={data} columns={columns} />
