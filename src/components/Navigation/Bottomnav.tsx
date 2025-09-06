@@ -15,7 +15,7 @@ function Bottomnav() {
   }
   return (
     <div className="flex flex-col ml-2 border-t mt-3  p-2">
-      <Button onclick={handleLogout}  title="Log Out" icon={<IoIosLogOut className="h-7 w-7"/>} />
+      <Button className="bg-red-500" onclick={handleLogout}  title="Log Out" icon={<IoIosLogOut className="h-7 w-7"/>} />
 
     </div>
   );
