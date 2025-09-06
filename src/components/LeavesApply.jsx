@@ -38,13 +38,15 @@ function LeavesApply() {
   const[colorstate , setColor]=useState("")
   const[disabled,setDisabled]=useState(false)
   const [renderer, setRenderer] = useState('')
+
   const [leaveReason , setLeaveReason] = useState({
     name:"",
     reason:""
   })
   const [activeLeaveId , setActiveLeaveId] = useState(null)
 
-  // const [loading , setLoading] = useState(false)
+  const[status, setStatus]=useState('')
+
 
   const navigate = useNavigate();
     //   employee/allemployees?search=${search}&page=${page}&limit=${limit}
@@ -52,7 +54,7 @@ function LeavesApply() {
   const fetchEmployees = () => {
     apiClient(`api/leaves?search=${search}&page=${page}&limit=${limit}`)
     
-      .then((data) => {
+      .then((data) => { 
         setData(data.data);
         setTotalPages(Math.ceil(data.total / limit));
         setTotalResponses(data.total);
@@ -64,10 +66,30 @@ function LeavesApply() {
 
   useEffect(() => {
     fetchEmployees();
+
   }, [search, page, limit , renderer ]);
 
-  const handleAproved = async (id,email,name,from,to) => {
-    console.log("email....",id,email);
+
+
+  useEffect(()=>
+  {
+    try{
+      apiClient(`api/status?status=${status}`)
+      .then((data)=>{
+        setData(data.data)
+        
+        console.log("....status data is.........................",data.data)
+      }) 
+    } catch (error) {
+      console.log(error)
+      
+    }
+
+  },[status])
+
+  const handleAproved = async (id,email,from,to,name) => {
+    console.log(id,email);
+
     if (!window.confirm("Are you sure you want to Approve leave for this employee?"))
       return;
     console.log(id);
@@ -192,15 +214,12 @@ function LeavesApply() {
   function handleChange(e)
   {
      const {name,value}=e.target
-     console.log(".......... ausbdsusududb",colorstate)
+     setStatus(value)
+     console.log(".......... value status is ...",name,value)
 
   }
 
   const columns = [
-    {
-      id: "select",
-    
-    },
     { id: "leaveType", header: "Leave Type" },
     // { id: "employeeId", header: "Emp_Id" },
     { id: "name", header: "Name" },
@@ -222,9 +241,7 @@ function LeavesApply() {
       }}>{row.status}</p>
 
     },
-    // {id:"email" ,header:"Email"},
-    // { id: "Aboutemployee", header: "Approved By" },
-    // { id: "Aboutemployee", header: "Approved At" },
+
       {
            id: "actions",
            header: "Actions",
@@ -257,6 +274,7 @@ function LeavesApply() {
             <FaEye />
           </button>
          }
+
 
    
   ];
@@ -300,13 +318,13 @@ function LeavesApply() {
         <p className="text-2xl">Manage Employee</p>
         <div className="flex gap-3 mt-2 items-center flex-wrap">
                <select
-        // onChange={handleChange}
+        onChange={handleChange}
         name="leavstatus"
         className={`border-2 rounded-lg p-2 border-[#00A99D] text-${colorstate}`}>
             <option value="">Leave status</option>
-            <option value="Pending" className="text-orange-500" onChange={handleChange}>Pending</option>
+            <option value="Pending" className="text-orange-500" >Pending</option>
             <option value="Approved" className="text-green-600">Approved</option>
-            <option value="Cancle" className="text-red-600">Cancle</option>
+            <option value="Cancelled" className="text-red-600">Cancelled</option>
             
 
         </select>
